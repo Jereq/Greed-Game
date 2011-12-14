@@ -1,7 +1,7 @@
 package greedGame.model;
 
-import greedGame.player.Player;
-import greedGame.player.PlayerFactory;
+import greedGame.model.player.Player;
+import greedGame.model.player.PlayerFactory;
 
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +28,7 @@ public class GreedGameModel {
 			currentPlayerIterator = players.iterator();
 
 		currentPlayer = currentPlayerIterator.next();
+		// TODO : Signal player
 	}
 
 	private void addPlayer(Player player) {

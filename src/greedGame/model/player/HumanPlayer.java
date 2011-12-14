@@ -1,4 +1,4 @@
-package greedGame.player;
+package greedGame.model.player;
 
 public class HumanPlayer implements Player {
 	
@@ -23,6 +23,11 @@ public class HumanPlayer implements Player {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public void beginTurn() {
+		// Calling human... Turn begun!
 	}
 
 }

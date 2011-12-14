@@ -1,4 +1,4 @@
-package greedGame.player;
+package greedGame.model.player;
 
 public class PlayerFactory {
 

@@ -1,13 +1,9 @@
-package greedGame.player;
+package greedGame.model.player;
 
 public interface Player {
 
-	int getScore();
-	
-	
 	void addScore(int points);
-	
-	
+	int getScore();
 	String getName();
-	
+	void beginTurn();
 }

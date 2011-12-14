@@ -1,4 +1,4 @@
-package greedGame.player;
+package greedGame.model.player;
 
 public abstract class AIPlayer implements Player {
 
@@ -25,4 +25,8 @@ public abstract class AIPlayer implements Player {
 		return name;
 	}
 
+	@Override
+	public void beginTurn() {
+		// TODO : Add waiting and deciding method
+	}
 }
