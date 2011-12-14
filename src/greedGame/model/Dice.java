@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class Dice {
 	
-	Random rnd;
-	int value = 1;
-	DiceState state;
+	private Random rnd;
+	private int value = 1;
+	private DiceState state;
 	
 	public Dice(Random rnd) {
 		this.rnd = rnd;
