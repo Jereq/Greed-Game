@@ -5,7 +5,7 @@ public interface Player {
 	int getScore();
 	
 	
-	void addScore(points : int);
+	void addScore(int points);
 	
 	
 	String getName();
