@@ -47,16 +47,6 @@ public class DiceHandler {
 		dice.get(index).setState(DiceState.SELECTED);
 	}
 	
-	public List<DiceState> getDiceStates() {
-		
-		ArrayList<DiceState> states = new ArrayList<DiceState>(numberOfDice);
-		for (Dice d : dice) {
-			states.add(d.getState());
-		}
-		
-		return states;
-	}
-	
 	private List<Dice> getSelectedDice() {
 		
 		ArrayList<Dice> selectedDice = new ArrayList<Dice>(numberOfDice);
@@ -68,7 +58,7 @@ public class DiceHandler {
 		return selectedDice;
 	}
 	
-	private List<Dice> getUnreservedDice() {
+	public List<Dice> getUnreservedDice() {
 		
 		ArrayList<Dice> unreservedDice = new ArrayList<Dice>(numberOfDice);
 		for (Dice d : dice) {
@@ -77,5 +67,9 @@ public class DiceHandler {
 		}
 		
 		return unreservedDice;
+	}
+	
+	public List<Dice> getDice() {
+		return dice;
 	}
 }

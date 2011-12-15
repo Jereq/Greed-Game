@@ -2,7 +2,7 @@ package greedGame.model.player;
 
 import java.util.List;
 
-import greedGame.model.DiceState;
+import greedGame.model.Dice;
 import greedGame.model.GreedGameModel;
 
 public abstract class AIPlayer implements Player {
@@ -49,8 +49,8 @@ public abstract class AIPlayer implements Player {
 		gameModel.selectDice(index);
 	}
 	
-	protected List<DiceState> getDiceStates() {
-		return gameModel.getDiceStates();
+	protected List<Dice> getUnreservedDice() {
+		return gameModel.getUnreservedDice();
 	}
 	
 	protected List<Player> getPlayers() {

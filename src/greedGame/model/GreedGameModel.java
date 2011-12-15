@@ -48,9 +48,11 @@ public class GreedGameModel extends Observable {
 			diceHandler.rollDice();
 			if (diceHandler.getMaxPoints() < firstRollScoreLimit)
 				nextPlayer();
-		} else {
+		} else if (state == ModelState.PLAYER_DECISION) {
 			updateSubScore();
 			diceHandler.rollDice();
+		} else {
+			throw new RuntimeException();
 		}
 		
 		modelChanged();
@@ -138,8 +140,12 @@ public class GreedGameModel extends Observable {
 		diceHandler.selectDice(index);
 	}
 	
-	public List<DiceState> getDiceStates() {
-		return diceHandler.getDiceStates();
+	public List<Dice> getUnreservedDice() {
+		return diceHandler.getUnreservedDice();
+	}
+	
+	public List<Dice> getDice() {
+		return diceHandler.getDice();
 	}
 	
 	public ModelState getState() {
