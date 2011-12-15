@@ -58,56 +58,56 @@ public class GreedGameGUIExperiment {
 		frame.getContentPane().add(panel);
 		panel.setLayout(new MigLayout("", "[][][]", "[][][][][][][][][][][]"));
 		
-		JLabel lblA = new JLabel("A");
-		panel.add(lblA, "cell 0 0");
+		JLabel diceLabel1 = new JLabel("A");
+		panel.add(diceLabel1, "cell 0 0");
 		
-		JCheckBox chckbxDice = new JCheckBox("Dice 1");
-		panel.add(chckbxDice, "cell 2 0");
+		JCheckBox diceCheckbox1 = new JCheckBox("Dice 1");
+		panel.add(diceCheckbox1, "cell 2 0");
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
 		panel.add(verticalStrut, "cell 2 1");
 		
-		JLabel lblB = new JLabel("B");
-		panel.add(lblB, "cell 0 2");
+		JLabel diceLabel2 = new JLabel("B");
+		panel.add(diceLabel2, "cell 0 2");
 		
-		JCheckBox chckbxDice_1 = new JCheckBox("Dice 2");
-		panel.add(chckbxDice_1, "cell 2 2");
+		JCheckBox diceCheckbox2 = new JCheckBox("Dice 2");
+		panel.add(diceCheckbox2, "cell 2 2");
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		panel.add(verticalStrut_1, "cell 2 3");
 		
-		JLabel lblC = new JLabel("C");
-		panel.add(lblC, "cell 0 4");
+		JLabel diceLabel3 = new JLabel("C");
+		panel.add(diceLabel3, "cell 0 4");
 		
-		JCheckBox chckbxDice_2 = new JCheckBox("Dice 3");
-		panel.add(chckbxDice_2, "cell 2 4");
+		JCheckBox diceCheckbox3 = new JCheckBox("Dice 3");
+		panel.add(diceCheckbox3, "cell 2 4");
 		
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		panel.add(verticalStrut_2, "cell 2 5");
 		
-		JLabel lblD = new JLabel("D");
-		panel.add(lblD, "cell 0 6");
+		JLabel diceLabel4 = new JLabel("D");
+		panel.add(diceLabel4, "cell 0 6");
 		
-		JCheckBox chckbxDice_3 = new JCheckBox("Dice 4");
-		panel.add(chckbxDice_3, "cell 2 6");
+		JCheckBox diceCheckbox4 = new JCheckBox("Dice 4");
+		panel.add(diceCheckbox4, "cell 2 6");
 		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		panel.add(verticalStrut_3, "cell 2 7");
 		
-		JLabel lblE = new JLabel("E");
-		panel.add(lblE, "cell 0 8");
+		JLabel diceLabel5 = new JLabel("E");
+		panel.add(diceLabel5, "cell 0 8");
 		
-		JCheckBox chckbxDice_4 = new JCheckBox("Dice 5");
-		panel.add(chckbxDice_4, "cell 2 8");
+		JCheckBox diceCheckbox5 = new JCheckBox("Dice 5");
+		panel.add(diceCheckbox5, "cell 2 8");
 		
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		panel.add(verticalStrut_4, "cell 2 9");
 		
-		JLabel lblF = new JLabel("F");
-		panel.add(lblF, "cell 0 10");
+		JLabel diceLabel6 = new JLabel("F");
+		panel.add(diceLabel6, "cell 0 10");
 		
-		JCheckBox chckbxDice_5 = new JCheckBox("Dice 6");
-		panel.add(chckbxDice_5, "cell 2 10");
+		JCheckBox diceCheckbox6 = new JCheckBox("Dice 6");
+		panel.add(diceCheckbox6, "cell 2 10");
 		
 		JButton btnRoll = new JButton("Roll");
 		btnRoll.setBounds(98, 228, 89, 23);
