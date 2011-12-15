@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JList;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class GreedGameGUI {
 
@@ -66,10 +67,14 @@ public class GreedGameGUI {
 			}
 		});
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		frame.getContentPane().add(scrollPane, "cell 7 1,grow");
+		
 		JTextPane txtpnMuuhgghjghgfjghj = new JTextPane();
+		scrollPane.setViewportView(txtpnMuuhgghjghgfjghj);
 		txtpnMuuhgghjghgfjghj.setEditable(false);
 		txtpnMuuhgghjghgfjghj.setText("muuhgghjghgfjghj");
-		frame.getContentPane().add(txtpnMuuhgghjghgfjghj, "cell 7 1,grow");
 		frame.getContentPane().add(btnNewButton, "cell 11 1,alignx center");
 		
 		JLabel diceLable2 = new JLabel("B");
