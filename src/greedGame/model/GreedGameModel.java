@@ -14,6 +14,10 @@ public class GreedGameModel extends Observable {
 	private Player currentPlayer;
 	private DiceHandler diceHandler;
 	private PlayerFactory playerFactory;
+	
+	public GreedGameModel() {
+		playerFactory = new PlayerFactory(this);
+	}
 
 	public void rollDice() {
 		diceHandler.rollDice();
@@ -55,5 +59,13 @@ public class GreedGameModel extends Observable {
 	public void removeCurrentPlayer() {
 		currentPlayerIterator.remove();
 		nextPlayer();
+	}
+	
+	public void selectDice(int index) {
+		diceHandler.selectDice(index);
+	}
+	
+	public List<DiceState> getDiceStates() {
+		return diceHandler.getDiceStates();
 	}
 }

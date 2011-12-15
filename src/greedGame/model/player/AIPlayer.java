@@ -1,12 +1,19 @@
 package greedGame.model.player;
 
+import java.util.List;
+
+import greedGame.model.DiceState;
+import greedGame.model.GreedGameModel;
+
 public abstract class AIPlayer implements Player {
 
 	private String name;
 	private int score;
+	private GreedGameModel gameModel;
 	
-	public AIPlayer(String name) {
+	public AIPlayer(String name, GreedGameModel gameModel) {
 		this.name = name;
+		this.gameModel = gameModel;
 		score = 0;
 	}
 	
@@ -28,5 +35,21 @@ public abstract class AIPlayer implements Player {
 	@Override
 	public void beginTurn() {
 		// TODO : Add waiting and deciding method
+	}
+	
+	protected void bank() {
+		gameModel.bank();
+	}
+	
+	protected void rollDice() {
+		gameModel.rollDice();
+	}
+	
+	protected void selectDice(int index) {
+		gameModel.selectDice(index);
+	}
+	
+	protected List<DiceState> getDiceStates() {
+		return gameModel.getDiceStates();
 	}
 }

@@ -24,6 +24,10 @@ public class Dice implements Comparable<Dice> {
 	public DiceState getState() {
 		return state;
 	}
+	
+	public void setState(DiceState state) {
+		this.state = state;
+	}
 
 	@Override
 	public int compareTo(Dice o) {
