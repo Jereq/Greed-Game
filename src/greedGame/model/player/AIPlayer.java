@@ -52,4 +52,8 @@ public abstract class AIPlayer implements Player {
 	protected List<DiceState> getDiceStates() {
 		return gameModel.getDiceStates();
 	}
+	
+	protected List<Player> getPlayers() {
+		return gameModel.getPlayers();
+	}
 }
