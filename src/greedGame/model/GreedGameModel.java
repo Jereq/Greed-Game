@@ -36,7 +36,7 @@ public class GreedGameModel extends Observable {
 			currentPlayerIterator = players.iterator();
 
 		currentPlayer = currentPlayerIterator.next();
-		// TODO : Signal player
+		currentPlayer.beginTurn();
 	}
 
 	private void addPlayer(Player player) {

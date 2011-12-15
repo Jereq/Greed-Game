@@ -1,8 +1,9 @@
 package greedGame.model;
 
+import java.util.List;
+
 public interface ScoringRules {
 
-	int getMaxPoints(Dice dice);
-	
-	ScoringCombination getScoringCombination(Dice dice);
+	int getMaxPoints(List<Dice> dice);
+	List<ScoringCombination> getScoringCombinations(List<Dice> dice);
 }

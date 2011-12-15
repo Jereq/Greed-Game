@@ -2,7 +2,7 @@ package greedGame.model;
 
 import java.util.Random;
 
-public class Dice {
+public class Dice implements Comparable<Dice> {
 	
 	private Random rnd;
 	private int value = 1;
@@ -23,5 +23,10 @@ public class Dice {
 	
 	public DiceState getState() {
 		return state;
+	}
+
+	@Override
+	public int compareTo(Dice o) {
+		return value - o.getValue();
 	}
 }
