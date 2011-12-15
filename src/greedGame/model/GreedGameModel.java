@@ -155,4 +155,8 @@ public class GreedGameModel extends Observable {
 	public List<Player> getPlayers() {
 		return players;
 	}
+	
+	public ScoringRules getScoringRules() {
+		return diceHandler.getScoringRules();
+	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import greedGame.model.Dice;
 import greedGame.model.GreedGameModel;
+import greedGame.model.ScoringRules;
 
 public abstract class AIPlayer implements Player {
 
@@ -55,5 +56,9 @@ public abstract class AIPlayer implements Player {
 	
 	protected List<Player> getPlayers() {
 		return gameModel.getPlayers();
+	}
+	
+	protected ScoringRules getScoringRules() {
+		return gameModel.getScoringRules();
 	}
 }

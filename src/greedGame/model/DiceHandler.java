@@ -72,4 +72,8 @@ public class DiceHandler {
 	public List<Dice> getDice() {
 		return dice;
 	}
+	
+	public ScoringRules getScoringRules() {
+		return rules;
+	}
 }
