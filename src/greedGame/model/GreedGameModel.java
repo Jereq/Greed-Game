@@ -5,8 +5,9 @@ import greedGame.model.player.PlayerFactory;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 
-public class GreedGameModel {
+public class GreedGameModel extends Observable {
 
 	private List<Player> players;
 	private Iterator<Player> currentPlayerIterator;
@@ -16,11 +17,18 @@ public class GreedGameModel {
 
 	public void rollDice() {
 		diceHandler.rollDice();
+		modelChanged();
 	}
 
 	public void bank() {
 		currentPlayer.addScore(0); // TODO: Calculate score
 		nextPlayer();
+		modelChanged();
+	}
+	
+	private void modelChanged() {
+		setChanged();
+		notifyObservers();
 	}
 
 	private void nextPlayer() {
@@ -33,6 +41,7 @@ public class GreedGameModel {
 
 	private void addPlayer(Player player) {
 		players.add(player);
+		modelChanged();
 	}
 	
 	public void addHumanPlayer() {
