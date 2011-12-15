@@ -53,7 +53,7 @@ public class GreedGameGUI {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 513, 312);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[grow][][][][][][][grow][grow][][][][]", "[][grow][grow][][][][]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[grow][][][][][][][grow][grow][][][][]", "[][grow][grow][grow][][][]"));
 		
 		JLabel diceLable1 = new JLabel("A");
 		frame.getContentPane().add(diceLable1, "cell 0 1");
@@ -91,6 +91,10 @@ public class GreedGameGUI {
 		
 		JCheckBox diceCheckbox3 = new JCheckBox("Dice 3");
 		frame.getContentPane().add(diceCheckbox3, "cell 1 3");
+		
+		JTextPane txtpnMuu = new JTextPane();
+		txtpnMuu.setText("muu");
+		frame.getContentPane().add(txtpnMuu, "cell 7 3,grow");
 		
 		JButton btnNewButton_1 = new JButton("Remove current player");
 		frame.getContentPane().add(btnNewButton_1, "cell 11 3");
