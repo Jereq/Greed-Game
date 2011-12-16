@@ -46,6 +46,10 @@ public class DiceHandler {
 	public void selectDice(Dice selDice) {
 		selDice.setState(DiceState.SELECTED);
 	}
+
+	public void unselectDice(Dice selDice) {
+		selDice.setState(DiceState.FREE);
+	}
 	
 	private List<Dice> getSelectedDice() {
 		

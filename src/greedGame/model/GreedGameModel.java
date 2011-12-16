@@ -107,7 +107,7 @@ public class GreedGameModel extends Observable {
 		currentPlayer.beginTurn();
 	}
 
-	private void addPlayer(Player player) {
+	public void addPlayer(Player player) {
 
 		players.add(player);
 		
@@ -134,10 +134,17 @@ public class GreedGameModel extends Observable {
 			endGame();
 		else
 			nextPlayer();
+		
+		modelChanged();
 	}
 	
 	public void selectDice(Dice dice) {
 		diceHandler.selectDice(dice);
+		modelChanged();
+	}
+
+	public void unselectDice(Dice dice) {
+		diceHandler.unselectDice(dice);
 		modelChanged();
 	}
 	
