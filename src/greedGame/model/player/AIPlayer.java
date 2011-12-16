@@ -38,6 +38,8 @@ public abstract class AIPlayer implements Player {
 		// TODO : Add waiting and deciding method
 	}
 	
+	public abstract void decide();
+	
 	protected void bank() {
 		gameModel.bank();
 	}
