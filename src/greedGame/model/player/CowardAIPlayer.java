@@ -20,6 +20,7 @@ public class CowardAIPlayer extends AIPlayer {
 		ScoringRules rules = getScoringRules();
 		List<ScoringCombination> combinations = rules.getScoringCombinations(diceList);
 		
+		
 		for(ScoringCombination forCombo : combinations)
 		{
 			if(forCombo.getScore() > 0)
