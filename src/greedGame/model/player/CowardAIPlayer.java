@@ -13,7 +13,7 @@ public class CowardAIPlayer extends AIPlayer {
 		super(name, model);
 	}
 	
-	public void Decide()
+	public void decide()
 	{
 		rollDice();
 		List<Dice> diceList = getUnreservedDice();
