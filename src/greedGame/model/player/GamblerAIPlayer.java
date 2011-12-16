@@ -17,13 +17,11 @@ public class GamblerAIPlayer extends AIPlayer {
 	@Override
 	
 	public void decide() {
-		rollDice();
 		List<Dice> diceList = getUnreservedDice();
 		ScoringRules rules = getScoringRules();
 		List<ScoringCombination> combinations = rules.getScoringCombinations(diceList);
 		
-		while (diceList.size() > 0)
-		{
+		
 			for(ScoringCombination forCombo : combinations)
 			{
 				if(forCombo.getScore() > 0)
@@ -35,7 +33,15 @@ public class GamblerAIPlayer extends AIPlayer {
 				}
 			}
 			//end of for loop
-		}
+			if(diceList.size() >=2 && getScore() < 10000)
+			{
+				rollDice();
+			}
+			else
+			{
+				bank();
+			}
+		
 		//end of while loop
 
 	}
