@@ -1,6 +1,6 @@
 package greedGame;
 
-import java.awt.EventQueue;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -9,25 +9,10 @@ import javax.swing.JButton;
 
 public class SetupGUI {
 
-	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SetupGUI window = new SetupGUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JFrame frmGreedGame;
+	private JTextField pointsToWinText;
+	private JTextField bustLimitText;
+	private JButton btnReturn;
 
 	/**
 	 * Create the application.
@@ -35,36 +20,55 @@ public class SetupGUI {
 	public SetupGUI() {
 		initialize();
 	}
+	
+	public void setVisible(boolean visible) {
+		frmGreedGame.setVisible(visible);
+	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmGreedGame = new JFrame();
+		frmGreedGame.setTitle("Setup Game");
+		frmGreedGame.setBounds(100, 100, 245, 128);
+		frmGreedGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGreedGame.getContentPane().setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 25, 86, 20);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		pointsToWinText = new JTextField();
+		pointsToWinText.setText("10000");
+		pointsToWinText.setBounds(10, 25, 100, 20);
+		frmGreedGame.getContentPane().add(pointsToWinText);
+		pointsToWinText.setColumns(10);
 		
 		JLabel lblPointsToWin = new JLabel("Points to win");
-		lblPointsToWin.setBounds(10, 11, 61, 14);
-		frame.getContentPane().add(lblPointsToWin);
+		lblPointsToWin.setBounds(10, 11, 100, 14);
+		frmGreedGame.getContentPane().add(lblPointsToWin);
 		
 		JLabel lblBustLimit = new JLabel("Bust limit");
-		lblBustLimit.setBounds(106, 11, 46, 14);
-		frame.getContentPane().add(lblBustLimit);
+		lblBustLimit.setBounds(120, 11, 99, 14);
+		frmGreedGame.getContentPane().add(lblBustLimit);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(106, 25, 86, 20);
-		frame.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		bustLimitText = new JTextField();
+		bustLimitText.setText("300");
+		bustLimitText.setBounds(120, 25, 99, 20);
+		frmGreedGame.getContentPane().add(bustLimitText);
+		bustLimitText.setColumns(10);
 		
-		JButton btnReturn = new JButton("Return");
-		btnReturn.setBounds(10, 56, 89, 23);
-		frame.getContentPane().add(btnReturn);
+		btnReturn = new JButton("Start Game");
+		btnReturn.setBounds(10, 56, 209, 23);
+		frmGreedGame.getContentPane().add(btnReturn);
+	}
+	
+	public void addStartGameActionListener(ActionListener actionListener) {
+		btnReturn.addActionListener(actionListener);
+	}
+	
+	public int getPointsToWin() {
+		return Integer.parseInt(pointsToWinText.getText());
+	}
+	
+	public int getBustLimit() {
+		return Integer.parseInt(bustLimitText.getText());
 	}
 }
