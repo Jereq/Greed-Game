@@ -11,7 +11,7 @@ import java.util.Observable;
 public class GreedGameModel extends Observable {
 
 	private enum ModelState {
-		NO_PLAYERS,
+		ADD_PLAYER,
 		FIRST_ROLL,
 		PLAYER_DECISION,
 		GAME_OVER
@@ -35,7 +35,7 @@ public class GreedGameModel extends Observable {
 		players = new LinkedList<Player>();
 		
 		playerFactory = new PlayerFactory(this);
-		state = ModelState.NO_PLAYERS;
+		state = ModelState.ADD_PLAYER;
 		
 		diceHandler = new DiceHandler();
 		
@@ -95,7 +95,7 @@ public class GreedGameModel extends Observable {
 	}
 
 	private void nextPlayer() {
-		if (state == ModelState.GAME_OVER || state == ModelState.NO_PLAYERS)
+		if (state == ModelState.GAME_OVER || state == ModelState.ADD_PLAYER)
 			throw new RuntimeException();
 		
 		if (currentPlayerIterator == null || !currentPlayerIterator.hasNext())
@@ -111,7 +111,7 @@ public class GreedGameModel extends Observable {
 
 		players.add(player);
 		
-		if (state == ModelState.NO_PLAYERS) {
+		if (state == ModelState.ADD_PLAYER) {
 			state = ModelState.FIRST_ROLL;
 			nextPlayer();
 		}

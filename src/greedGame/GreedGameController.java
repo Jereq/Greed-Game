@@ -24,10 +24,10 @@ public class GreedGameController {
 	}
 
 	GreedGameModel model;
-	GreedGameGUIExperiment view;
+	GreedGameGUI view;
 	List<CheckBoxDicePair> checkBoxDiceMap;
 	
-	public GreedGameController(GreedGameModel greedGameModel, GreedGameGUIExperiment greedGameView) {
+	public GreedGameController(GreedGameModel greedGameModel, GreedGameGUI greedGameView) {
 		
 		model = greedGameModel;
 		view = greedGameView;

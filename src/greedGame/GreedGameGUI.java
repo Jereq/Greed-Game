@@ -24,7 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextPane;
 
-public class GreedGameGUIExperiment implements Observer {
+public class GreedGameGUI implements Observer {
 
 	private GreedGameModel model;
 	
@@ -67,7 +67,7 @@ public class GreedGameGUIExperiment implements Observer {
 	/**
 	 * Create the application.
 	 */
-	public GreedGameGUIExperiment(GreedGameModel model) {
+	public GreedGameGUI(GreedGameModel model) {
 		
 		this.model = model;
 		

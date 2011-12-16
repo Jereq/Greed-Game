@@ -10,7 +10,7 @@ public class GreedGame {
 	static SetupGUI setup;
 	
 	static GreedGameModel model;
-	static GreedGameGUIExperiment view;
+	static GreedGameGUI view;
 	static GreedGameController controller;
 
 	/**
@@ -25,7 +25,7 @@ public class GreedGame {
 					setup.setVisible(false);
 					
 					model = new GreedGameModel(setup.getBustLimit(), setup.getPointsToWin());
-					view = new GreedGameGUIExperiment(model);
+					view = new GreedGameGUI(model);
 					model.addObserver(view);
 					
 					controller = new GreedGameController(model, view);
