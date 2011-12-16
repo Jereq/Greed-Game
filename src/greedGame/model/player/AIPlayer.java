@@ -48,8 +48,8 @@ public abstract class AIPlayer implements Player {
 		gameModel.rollDice();
 	}
 	
-	protected void selectDice(int index) {
-		gameModel.selectDice(index);
+	protected void selectDice(Dice dice) {
+		gameModel.selectDice(dice);
 	}
 	
 	protected List<Dice> getUnreservedDice() {

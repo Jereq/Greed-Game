@@ -43,8 +43,8 @@ public class DiceHandler {
 		}
 	}
 	
-	public void selectDice(int index) {
-		dice.get(index).setState(DiceState.SELECTED);
+	public void selectDice(Dice selDice) {
+		selDice.setState(DiceState.SELECTED);
 	}
 	
 	private List<Dice> getSelectedDice() {

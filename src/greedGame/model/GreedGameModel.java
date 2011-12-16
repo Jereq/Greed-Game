@@ -136,8 +136,9 @@ public class GreedGameModel extends Observable {
 			nextPlayer();
 	}
 	
-	public void selectDice(int index) {
-		diceHandler.selectDice(index);
+	public void selectDice(Dice dice) {
+		diceHandler.selectDice(dice);
+		modelChanged();
 	}
 	
 	public List<Dice> getUnreservedDice() {
