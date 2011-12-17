@@ -18,22 +18,9 @@ public class GamblerAIPlayer extends AIPlayer {
 	
 	@Override
 	public void decide() {
-		List<Dice> diceList = getUnreservedDice();
-		ScoringRules rules = getScoringRules();
-		List<ScoringCombination> combinations = rules.getScoringCombinations(diceList);
-		
-		
-			for(ScoringCombination forCombo : combinations)
-			{
-				if(forCombo.getScore() > 0)
-				{
-					for(Dice forDice : diceList)
-					{
-						selectDice(forDice);
-					}
-				}
-			}
-			//end of for loop
+		selectAllCombinations(); //selects the dice to keep or bank.
+			
+			// as long as the gambler still has 2 dice or more left he will roll again
 			if(diceList.size() >=2 && getScore() < 10000)
 			{
 				setDecision(AIDecision.KEEP_ROLLING);

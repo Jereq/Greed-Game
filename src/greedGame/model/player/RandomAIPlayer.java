@@ -16,7 +16,7 @@ public class RandomAIPlayer extends AIPlayer {
 	
 	@Override
 	protected void decide() {
-		selectAllCombinations();
+		selectAllCombinations(); //selects the dice to keep or bank.
 		
 		// random boolean if statement to make the random AI either keep rolling or bank his score.
 		if (random.nextBoolean()) 
