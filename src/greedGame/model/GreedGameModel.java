@@ -189,7 +189,7 @@ public class GreedGameModel extends Observable {
 		diceHandler.reserveAllDice();
 
 		state = ModelState.WAITING_FOR_FIRST_ROLL;
-		log.add("Waiting for " + currentPlayer.getName() + " to roll");
+		log.add("\n" + "Waiting for " + currentPlayer.getName() + " to roll");
 		currentPlayer.beginTurn();
 	}
 
