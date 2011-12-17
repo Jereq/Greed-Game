@@ -306,4 +306,8 @@ public class GreedGameModel extends Observable {
 		else
 			return null;
 	}
+	
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
 }
