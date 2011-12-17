@@ -318,12 +318,14 @@ public class GreedGameGUI implements Observer {
 		
 		displayGamePanel();
 		
-		boolean canPlayerDecide = model.canDecide() && model.isCurrentPlayerLocalGUI();
+		boolean localPlayer = model.isCurrentPlayerLocalGUI();
+		boolean canPlayerDecide = model.canDecide() && localPlayer;
 		btnBank.setEnabled(canPlayerDecide);
 		
 		if (model.getState() == ModelState.WAITING_FOR_FIRST_ROLL) {
 			btnAddPlayer.setEnabled(true);
 			btnRemoveCurrentPlayer.setEnabled(true);
+			btnRoll.setEnabled(localPlayer);
 		} else {
 			btnAddPlayer.setEnabled(false);
 			btnRemoveCurrentPlayer.setEnabled(false);

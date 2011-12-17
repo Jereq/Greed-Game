@@ -70,7 +70,7 @@ public abstract class AIPlayer implements Player {
 		{
 			if(forCombinations.getScore() > 0) //if the available combinations give points.
 			{
-				for(Dice forDice : diceList) //sorts out which dice to input.
+				for(Dice forDice : forCombinations.getDice()) //sorts out which dice to input.
 				{
 					selectDice(forDice); //reserves the input dice.
 				}
