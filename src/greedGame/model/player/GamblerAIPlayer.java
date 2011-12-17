@@ -14,8 +14,8 @@ public class GamblerAIPlayer extends AIPlayer {
 	public GamblerAIPlayer(String name, GreedGameModel model) {
 		super(name, model);
 	}
-	@Override
 	
+	@Override
 	public void decide() {
 		List<Dice> diceList = getUnreservedDice();
 		ScoringRules rules = getScoringRules();
@@ -35,11 +35,11 @@ public class GamblerAIPlayer extends AIPlayer {
 			//end of for loop
 			if(diceList.size() >=2 && getScore() < 10000)
 			{
-				rollDice();
+				setDecision(AIDecision.KEEP_ROLLING);
 			}
 			else
 			{
-				bank();
+				setDecision(AIDecision.BANK);
 			}
 		
 		//end of while loop

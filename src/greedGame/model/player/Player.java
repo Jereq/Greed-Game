@@ -6,4 +6,6 @@ public interface Player {
 	int getScore();
 	String getName();
 	void beginTurn();
+	void beginDecide();
+	boolean isLocalGUIPlayer();
 }

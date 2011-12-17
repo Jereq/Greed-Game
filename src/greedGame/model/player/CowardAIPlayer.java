@@ -13,9 +13,9 @@ public class CowardAIPlayer extends AIPlayer {
 		super(name, model);
 	}
 	
+	@Override
 	public void decide()
 	{
-		rollDice();
 		List<Dice> diceList = getUnreservedDice();
 		ScoringRules rules = getScoringRules();
 		List<ScoringCombination> combinations = rules.getScoringCombinations(diceList);
@@ -31,6 +31,6 @@ public class CowardAIPlayer extends AIPlayer {
 				}
 			}
 		}
-		bank();
+		setDecision(AIDecision.BANK);
 	}
 }

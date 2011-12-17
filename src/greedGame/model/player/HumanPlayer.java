@@ -30,4 +30,14 @@ public class HumanPlayer implements Player {
 		// Calling human... Turn begun!
 	}
 
+	@Override
+	public boolean isLocalGUIPlayer() {
+		return true;
+	}
+
+	@Override
+	public void beginDecide() {
+		// Waiting for response from gui...
+	}
+
 }

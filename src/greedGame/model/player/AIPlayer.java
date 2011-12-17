@@ -8,9 +8,15 @@ import greedGame.model.ScoringRules;
 
 public abstract class AIPlayer implements Player {
 
+	protected enum AIDecision {
+		KEEP_ROLLING,
+		BANK
+	}
+	
 	private String name;
 	private int score;
 	private GreedGameModel gameModel;
+	private AIDecision decision;
 	
 	public AIPlayer(String name, GreedGameModel gameModel) {
 		this.name = name;
@@ -35,17 +41,33 @@ public abstract class AIPlayer implements Player {
 
 	@Override
 	public void beginTurn() {
-		// TODO : Add waiting and deciding method
-	}
-	
-	public abstract void decide();
-	
-	protected void bank() {
-		gameModel.bank();
-	}
-	
-	protected void rollDice() {
 		gameModel.tryRollDice();
+	}
+	
+	@Override
+	public boolean isLocalGUIPlayer() {
+		return false;
+	}
+	
+	@Override
+	public void beginDecide() {
+		// TODO: wait
+		decide();
+		// TODO: wait
+		act();
+	}
+	
+	protected abstract void decide();
+	
+	private void act() {
+		if (decision == AIDecision.KEEP_ROLLING)
+			gameModel.tryRollDice();
+		else
+			gameModel.bank();
+	}
+	
+	protected void setDecision(AIDecision decision) {
+		this.decision = decision;
 	}
 	
 	protected void selectDice(Dice dice) {
