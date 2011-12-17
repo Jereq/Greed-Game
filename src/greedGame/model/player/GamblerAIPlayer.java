@@ -18,7 +18,7 @@ public class GamblerAIPlayer extends AIPlayer {
 	public void decide() {
 		selectAllCombinations(); //selects the dice to keep or bank.
 		
-		List<Dice> diceList = getUnreservedDice(); //gets the unreserved dice and puts it in a local list.
+		List<Dice> diceList = getUnselectedDice(); //gets the unreserved dice and puts it in a local list.
 		
 			// as long as the gambler still has 2 dice or more left he will roll again
 			if(diceList.size() >=2 && getScore() < 10000)

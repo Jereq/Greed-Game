@@ -89,7 +89,7 @@ public class GreedGameGUI implements Observer {
 
 		frmGreedGame = new JFrame();
 		frmGreedGame.setTitle("Greed Game");
-		frmGreedGame.setBounds(100, 100, 530, 347);
+		frmGreedGame.setBounds(100, 100, 740, 460);
 		frmGreedGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		initializeGamePanel();
@@ -116,7 +116,7 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceLabel1, "cell 0 0");
 		diceLabels[0] = diceLabel1;
 
-		JCheckBox diceCheckbox1 = new JCheckBox("Dice 1");
+		JCheckBox diceCheckbox1 = new JCheckBox("");
 		dicePanel.add(diceCheckbox1, "cell 2 0");
 		diceCheckBoxes[0] = diceCheckbox1;
 
@@ -127,7 +127,7 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceLabel2, "cell 0 2");
 		diceLabels[1] = diceLabel2;
 
-		JCheckBox diceCheckbox2 = new JCheckBox("Dice 2");
+		JCheckBox diceCheckbox2 = new JCheckBox("");
 		dicePanel.add(diceCheckbox2, "cell 2 2");
 		diceCheckBoxes[1] = diceCheckbox2;
 
@@ -138,7 +138,7 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceLabel3, "cell 0 4");
 		diceLabels[2] = diceLabel3;
 
-		JCheckBox diceCheckbox3 = new JCheckBox("Dice 3");
+		JCheckBox diceCheckbox3 = new JCheckBox("");
 		dicePanel.add(diceCheckbox3, "cell 2 4");
 		diceCheckBoxes[2] = diceCheckbox3;
 
@@ -149,7 +149,7 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceLabel4, "cell 0 6");
 		diceLabels[3] = diceLabel4;
 
-		JCheckBox diceCheckbox4 = new JCheckBox("Dice 4");
+		JCheckBox diceCheckbox4 = new JCheckBox("");
 		dicePanel.add(diceCheckbox4, "cell 2 6");
 		diceCheckBoxes[3] = diceCheckbox4;
 
@@ -160,7 +160,7 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceLabel5, "cell 0 8");
 		diceLabels[4] = diceLabel5;
 
-		JCheckBox diceCheckbox5 = new JCheckBox("Dice 5");
+		JCheckBox diceCheckbox5 = new JCheckBox("");
 		dicePanel.add(diceCheckbox5, "cell 2 8");
 		diceCheckBoxes[4] = diceCheckbox5;
 
@@ -171,47 +171,47 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceLabel6, "cell 0 10");
 		diceLabels[5] = diceLabel6;
 
-		JCheckBox diceCheckbox6 = new JCheckBox("Dice 6");
+		JCheckBox diceCheckbox6 = new JCheckBox("");
 		dicePanel.add(diceCheckbox6, "cell 2 10");
 		diceCheckBoxes[5] = diceCheckbox6;
 
 		btnRoll = new JButton("Roll");
-		btnRoll.setBounds(105, 278, 209, 23);
+		btnRoll.setBounds(212, 278, 292, 23);
 		surroundingGamePanel.add(btnRoll);
 
 		btnBank = new JButton("Bank");
-		btnBank.setBounds(105, 244, 209, 23);
+		btnBank.setBounds(212, 244, 292, 23);
 		surroundingGamePanel.add(btnBank);
 
 		btnRemoveCurrentPlayer = new JButton("Remove Current Player");
-		btnRemoveCurrentPlayer.setBounds(324, 278, 180, 23);
+		btnRemoveCurrentPlayer.setBounds(534, 278, 180, 23);
 		surroundingGamePanel.add(btnRemoveCurrentPlayer);
 
 		btnAddPlayer = new JButton("Add New Player");
-		btnAddPlayer.setBounds(324, 244, 180, 23);
+		btnAddPlayer.setBounds(534, 244, 180, 23);
 		surroundingGamePanel.add(btnAddPlayer);
 
 		JScrollPane playerListScrollPane = new JScrollPane();
-		playerListScrollPane.setBounds(324, 35, 180, 198);
+		playerListScrollPane.setBounds(534, 35, 180, 198);
 		playerListScrollPane
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		surroundingGamePanel.add(playerListScrollPane);
-
-		playerList = new JTextPane();
-		playerList.setEditable(false);
-		playerList.setText("mimimimi");
-		playerListScrollPane.setViewportView(playerList);
+		
+				playerList = new JTextPane();
+				playerListScrollPane.setViewportView(playerList);
+				playerList.setEditable(false);
+				playerList.setText("mimimimi");
 
 		JLabel lblHistory = new JLabel("History");
-		lblHistory.setBounds(105, 11, 46, 14);
+		lblHistory.setBounds(212, 11, 46, 14);
 		surroundingGamePanel.add(lblHistory);
 
 		JLabel lblPlayers = new JLabel("Players");
-		lblPlayers.setBounds(324, 11, 46, 14);
+		lblPlayers.setBounds(534, 10, 46, 14);
 		surroundingGamePanel.add(lblPlayers);
 
 		JScrollPane historyScrollPane = new JScrollPane();
-		historyScrollPane.setBounds(105, 35, 209, 198);
+		historyScrollPane.setBounds(212, 35, 292, 198);
 		surroundingGamePanel.add(historyScrollPane);
 
 		historyPane = new JTextPane();
