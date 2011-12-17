@@ -2,9 +2,9 @@ package greedGame.model;
 
 import greedGame.model.player.Player;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Observable;
 
 public class GreedGameModel extends Observable {
@@ -22,7 +22,7 @@ public class GreedGameModel extends Observable {
 	}
 
 	private List<Player> players;
-	private Iterator<Player> currentPlayerIterator;
+	private ListIterator<Player> currentPlayerIterator;
 	private Player currentPlayer;
 
 	private DiceHandler diceHandler;
@@ -123,8 +123,6 @@ public class GreedGameModel extends Observable {
 		state = ModelState.GAME_OVER;
 		log.add("Game ended");
 
-		// TODO: End the game
-
 		modelChanged();
 	}
 
@@ -182,7 +180,7 @@ public class GreedGameModel extends Observable {
 							+ state.toString());
 
 		if (currentPlayerIterator == null || !currentPlayerIterator.hasNext())
-			currentPlayerIterator = players.iterator();
+			currentPlayerIterator = players.listIterator();
 
 		currentPlayer = currentPlayerIterator.next();
 		currentSubScore = 0;
@@ -196,7 +194,11 @@ public class GreedGameModel extends Observable {
 	public void addPlayer(Player player) {
 
 		if (state == ModelState.ADD_PLAYER) {
-			players.add(player);
+			if (currentPlayerIterator == null)
+				currentPlayerIterator = players.listIterator();
+			currentPlayerIterator.add(player);
+			log.add(player.getName() + " joined the game");
+			
 			modelChanged();
 		} else
 			throw new RuntimeException(
@@ -206,6 +208,7 @@ public class GreedGameModel extends Observable {
 
 	public void removeCurrentPlayer() {
 		currentPlayerIterator.remove();
+		log.add(currentPlayer.getName() + " left the game");
 
 		if (players.isEmpty())
 			endGame();
