@@ -4,6 +4,7 @@ import java.util.List;
 
 import greedGame.model.Dice;
 import greedGame.model.GreedGameModel;
+import greedGame.model.ScoringCombination;
 import greedGame.model.ScoringRules;
 
 public abstract class AIPlayer implements Player {
@@ -58,6 +59,24 @@ public abstract class AIPlayer implements Player {
 	}
 	
 	protected abstract void decide();
+	
+	protected void selectAllCombinations() {
+		List<Dice> diceList = getUnreservedDice(); //gets the unreserved dice and puts it in a local list.
+		ScoringRules rules = getScoringRules(); //gets the scoring rules.
+		List<ScoringCombination> combinations = rules.getScoringCombinations(diceList); //gets the scoring combinations of the rules.
+		
+		// loop for deciding which dice to reserve.
+		for(ScoringCombination forCombinations : combinations) //checks point-giving combinations available.
+		{
+			if(forCombinations.getScore() > 0) //if the available combinations give points.
+			{
+				for(Dice forDice : diceList) //sorts out which dice to input.
+				{
+					selectDice(forDice); //reserves the input dice.
+				}
+			}
+		}
+	}
 	
 	private void act() {
 		if (decision == AIDecision.KEEP_ROLLING)
