@@ -307,8 +307,8 @@ public class GreedGameGUI implements Observer {
 		
 		displayGamePanel();
 		
-		boolean canDecide = model.canDecide();
-		btnBank.setEnabled(canDecide);
+		boolean canPlayerDecide = model.canDecide() && model.isCurrentPlayerLocalGUI();
+		btnBank.setEnabled(canPlayerDecide);
 		
 		if (model.getState() == ModelState.WAITING_FOR_FIRST_ROLL) {
 			btnAddPlayer.setEnabled(true);
@@ -316,7 +316,7 @@ public class GreedGameGUI implements Observer {
 		} else {
 			btnAddPlayer.setEnabled(false);
 			btnRemoveCurrentPlayer.setEnabled(false);
-			btnRoll.setEnabled(canDecide);
+			btnRoll.setEnabled(canPlayerDecide);
 		}
 
 		List<Dice> dice = model.getDice();
@@ -327,7 +327,7 @@ public class GreedGameGUI implements Observer {
 
 			DiceState dState = d.getState();
 			diceCheckBoxes[i].setSelected(dState == DiceState.SELECTED);
-			diceCheckBoxes[i].setEnabled(dState != DiceState.RESERVED);
+			diceCheckBoxes[i].setEnabled(dState != DiceState.RESERVED && model.isCurrentPlayerLocalGUI());
 
 			i++;
 		}

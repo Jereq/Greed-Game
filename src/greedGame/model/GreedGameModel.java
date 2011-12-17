@@ -127,7 +127,6 @@ public class GreedGameModel extends Observable {
 
 		diceHandler.reserveSelectedDice();
 		diceHandler.rollDice();
-		log.add(currentPlayer.getName() + " rolled the dice");
 
 	}
 
@@ -173,7 +172,9 @@ public class GreedGameModel extends Observable {
 
 	private void nextPlayer() {
 		if (state == ModelState.GAME_OVER)
-			throw new RuntimeException();
+			throw new RuntimeException(
+					"nextPlayer() must not be called while in state "
+							+ state.toString());
 
 		if (currentPlayerIterator == null || !currentPlayerIterator.hasNext())
 			currentPlayerIterator = players.iterator();
@@ -193,7 +194,9 @@ public class GreedGameModel extends Observable {
 			players.add(player);
 			modelChanged();
 		} else
-			throw new RuntimeException();
+			throw new RuntimeException(
+					"addPlayer(Player) must not be called while in state "
+							+ state.toString());
 	}
 
 	public void addHumanPlayer() {
@@ -247,7 +250,10 @@ public class GreedGameModel extends Observable {
 
 	public void startAddPlayer() {
 		if (state != ModelState.WAITING_FOR_FIRST_ROLL)
-			throw new RuntimeException();
+			throw new RuntimeException(
+					"startAddPLayer() must not be called while in state "
+							+ state.toString()
+							+ ", only in WAITING_FOR_FIRST_ROLL");
 
 		state = ModelState.ADD_PLAYER;
 		modelChanged();
@@ -255,7 +261,9 @@ public class GreedGameModel extends Observable {
 
 	public void stopAddPlayer() {
 		if (state != ModelState.ADD_PLAYER)
-			throw new RuntimeException();
+			throw new RuntimeException(
+					"stopAddPlayer() must not be called while in state "
+							+ state.toString() + ", only in ADD_PLAYER");
 
 		if (players.size() == 0)
 			endGame();
@@ -278,6 +286,11 @@ public class GreedGameModel extends Observable {
 	}
 
 	public boolean canDecide() {
-		return (state == ModelState.WAITING_FOR_PLAYER_DECISION && currentSubScore + getNewSubScore() >= firstRollScoreLimit);
+		return (state == ModelState.WAITING_FOR_PLAYER_DECISION && currentSubScore
+				+ getNewSubScore() >= firstRollScoreLimit);
+	}
+
+	public boolean isCurrentPlayerLocalGUI() {
+		return currentPlayer.isLocalGUIPlayer();
 	}
 }
