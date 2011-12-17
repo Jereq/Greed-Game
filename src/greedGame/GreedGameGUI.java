@@ -226,21 +226,21 @@ public class GreedGameGUI implements Observer {
 		surroundingAddPlayerPanel.setLayout(null);
 
 		playerTypeComboBox = new JComboBox();
-		playerTypeComboBox.setBounds(10, 73, 245, 20);
+		playerTypeComboBox.setBounds(10, 164, 245, 23);
 		surroundingAddPlayerPanel.add(playerTypeComboBox);
 
 		btnCreate = new JButton("Create Player");
-		btnCreate.setBounds(10, 39, 245, 23);
+		btnCreate.setBounds(10, 39, 245, 72);
 		surroundingAddPlayerPanel.add(btnCreate);
 
 		btnReturn = new JButton("Return");
-		btnReturn.setBounds(265, 275, 239, 23);
+		btnReturn.setBounds(422, 388, 292, 23);
 		surroundingAddPlayerPanel.add(btnReturn);
 
 		JScrollPane playerAddListScrollPane = new JScrollPane();
 		playerAddListScrollPane
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		playerAddListScrollPane.setBounds(265, 39, 239, 225);
+		playerAddListScrollPane.setBounds(422, 39, 292, 338);
 		surroundingAddPlayerPanel.add(playerAddListScrollPane);
 
 		playerAddList = new JTextPane();
@@ -249,8 +249,12 @@ public class GreedGameGUI implements Observer {
 		playerAddListScrollPane.setViewportView(playerAddList);
 
 		JLabel lblPlayers = new JLabel("Players");
-		lblPlayers.setBounds(265, 14, 46, 14);
+		lblPlayers.setBounds(422, 11, 46, 14);
 		surroundingAddPlayerPanel.add(lblPlayers);
+		
+		JLabel labelPlayerType = new JLabel("Player type");
+		labelPlayerType.setBounds(10, 139, 66, 14);
+		surroundingAddPlayerPanel.add(labelPlayerType);
 	}
 
 	public void addAddPlayerActionListener(ActionListener actionListener) {
