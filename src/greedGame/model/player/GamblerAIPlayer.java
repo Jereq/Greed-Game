@@ -1,8 +1,6 @@
 package greedGame.model.player;
 
 import greedGame.model.Dice;
-import greedGame.model.ScoringCombination;
-import greedGame.model.ScoringRules;
 import greedGame.model.GreedGameModel;
 
 import java.util.List;
@@ -19,7 +17,9 @@ public class GamblerAIPlayer extends AIPlayer {
 	@Override
 	public void decide() {
 		selectAllCombinations(); //selects the dice to keep or bank.
-			
+		
+		List<Dice> diceList = getUnreservedDice(); //gets the unreserved dice and puts it in a local list.
+		
 			// as long as the gambler still has 2 dice or more left he will roll again
 			if(diceList.size() >=2 && getScore() < 10000)
 			{
