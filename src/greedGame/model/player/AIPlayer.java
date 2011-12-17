@@ -25,31 +25,37 @@ public abstract class AIPlayer implements Player {
 		score = 0;
 	}
 	
+	//Returns the score.
 	@Override
 	public int getScore() {
 		return score;
 	}
-
+	
+	//Adds the current points to the players total.
 	@Override
 	public void addScore(int points) {
 		score += points;
 	}
-
+	
+	//Returns the name of the player.
 	@Override
 	public String getName() {
 		return name;
 	}
-
+	
+	//
 	@Override
 	public void beginTurn() {
 		gameModel.tryRollDice();
 	}
 	
+	//
 	@Override
 	public boolean isLocalGUIPlayer() {
 		return false;
 	}
 	
+	//
 	@Override
 	public void beginDecide() {
 		// TODO: wait
@@ -78,6 +84,7 @@ public abstract class AIPlayer implements Player {
 		}
 	}
 	
+	//
 	private void act() {
 		if (decision == AIDecision.KEEP_ROLLING)
 			gameModel.tryRollDice();
@@ -85,38 +92,47 @@ public abstract class AIPlayer implements Player {
 			gameModel.bank();
 	}
 	
+	//
 	protected void setDecision(AIDecision decision) {
 		this.decision = decision;
 	}
 	
+	//Selects the dice for keeping or banking.
 	protected void selectDice(Dice dice) {
 		gameModel.selectDice(dice);
 	}
 	
+	//returns the dice that weren't selected last turn.
 	protected List<Dice> getUnreservedDice() {
 		return gameModel.getUnreservedDice();
 	}
 	
+	//Returns the dice that are currently selected.
 	protected List<Dice> getSelectedDice() {
 		return gameModel.getSelectedDice();
 	}
 	
+	//Returns the dice that weren't selected.
 	protected List<Dice> getFreeDice() {
 		return gameModel.getFreeDice();
 	}
 	
+	//Returns the active players.
 	protected List<Player> getPlayers() {
 		return gameModel.getPlayers();
 	}
 	
+	//gets the scoring rules.
 	protected ScoringRules getScoringRules() {
 		return gameModel.getScoringRules();
 	}
 	
+	//returns the score amassed during the current turn and not yet banked.
 	protected int getSubScore() {
 		return gameModel.getSubScore();
 	}
 	
+	//returns the score of the currently selected dice.
 	protected int getSelectedDiceScore() {
 		return getScoringRules().getMaxPoints(getSelectedDice());
 	}
