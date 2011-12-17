@@ -11,6 +11,7 @@ import java.util.List;
 
 public class GamblerAIPlayer extends AIPlayer {
 	
+	//the class constructor.
 	public GamblerAIPlayer(String name, GreedGameModel model) {
 		super(name, model);
 	}

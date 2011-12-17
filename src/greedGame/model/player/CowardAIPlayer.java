@@ -8,7 +8,8 @@ import greedGame.model.ScoringCombination;
 import greedGame.model.ScoringRules;
 
 public class CowardAIPlayer extends AIPlayer {
-
+	
+	//the class constructor.
 	public CowardAIPlayer(String name, GreedGameModel model) {
 		super(name, model);
 	}
