@@ -22,6 +22,11 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextPane;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.TabSet;
+import javax.swing.text.TabStop;
+
 import java.awt.Font;
 
 public class GreedGameGUI implements Observer {
@@ -38,7 +43,7 @@ public class GreedGameGUI implements Observer {
 	private JButton btnBank;
 	private JTextPane playerList;
 	private JTextPane historyPane;
-	
+
 	private JButton btnCreate;
 	private JButton btnReturn;
 	private JTextPane playerAddList;
@@ -69,8 +74,9 @@ public class GreedGameGUI implements Observer {
 		this.model = model;
 
 		initialize();
-		
-		//** Uncomment one panel and comment the other in initialize when designing
+
+		// ** Uncomment one panel and comment the other in initialize when
+		// designing
 		//
 		// displayGamePanel();
 		// displayAddPlayerPanel();
@@ -107,36 +113,36 @@ public class GreedGameGUI implements Observer {
 		dicePanel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][]"));
 
 		diceCheckBoxes = new JCheckBox[6];
-		
-				JCheckBox diceCheckbox1 = new JCheckBox("A");
-				diceCheckbox1.setFont(new Font("Tahoma", Font.PLAIN, 24));
-				dicePanel.add(diceCheckbox1, "cell 0 0");
-				diceCheckBoxes[0] = diceCheckbox1;
-		
-				JCheckBox diceCheckbox2 = new JCheckBox("B");
-				diceCheckbox2.setFont(new Font("Tahoma", Font.PLAIN, 24));
-				dicePanel.add(diceCheckbox2, "cell 0 2");
-				diceCheckBoxes[1] = diceCheckbox2;
-		
-				JCheckBox diceCheckbox3 = new JCheckBox("C");
-				diceCheckbox3.setFont(new Font("Tahoma", Font.PLAIN, 24));
-				dicePanel.add(diceCheckbox3, "cell 0 4");
-				diceCheckBoxes[2] = diceCheckbox3;
-		
-				JCheckBox diceCheckbox4 = new JCheckBox("D");
-				diceCheckbox4.setFont(new Font("Tahoma", Font.PLAIN, 24));
-				dicePanel.add(diceCheckbox4, "cell 0 6");
-				diceCheckBoxes[3] = diceCheckbox4;
-		
-				JCheckBox diceCheckbox5 = new JCheckBox("E");
-				diceCheckbox5.setFont(new Font("Tahoma", Font.PLAIN, 24));
-				dicePanel.add(diceCheckbox5, "cell 0 8");
-				diceCheckBoxes[4] = diceCheckbox5;
-		
-				JCheckBox diceCheckbox6 = new JCheckBox("F");
-				diceCheckbox6.setFont(new Font("Tahoma", Font.PLAIN, 24));
-				dicePanel.add(diceCheckbox6, "cell 0 10");
-				diceCheckBoxes[5] = diceCheckbox6;
+
+		JCheckBox diceCheckbox1 = new JCheckBox("A");
+		diceCheckbox1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		dicePanel.add(diceCheckbox1, "cell 0 0");
+		diceCheckBoxes[0] = diceCheckbox1;
+
+		JCheckBox diceCheckbox2 = new JCheckBox("B");
+		diceCheckbox2.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		dicePanel.add(diceCheckbox2, "cell 0 2");
+		diceCheckBoxes[1] = diceCheckbox2;
+
+		JCheckBox diceCheckbox3 = new JCheckBox("C");
+		diceCheckbox3.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		dicePanel.add(diceCheckbox3, "cell 0 4");
+		diceCheckBoxes[2] = diceCheckbox3;
+
+		JCheckBox diceCheckbox4 = new JCheckBox("D");
+		diceCheckbox4.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		dicePanel.add(diceCheckbox4, "cell 0 6");
+		diceCheckBoxes[3] = diceCheckbox4;
+
+		JCheckBox diceCheckbox5 = new JCheckBox("E");
+		diceCheckbox5.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		dicePanel.add(diceCheckbox5, "cell 0 8");
+		diceCheckBoxes[4] = diceCheckbox5;
+
+		JCheckBox diceCheckbox6 = new JCheckBox("F");
+		diceCheckbox6.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		dicePanel.add(diceCheckbox6, "cell 0 10");
+		diceCheckBoxes[5] = diceCheckbox6;
 
 		btnRoll = new JButton("Roll");
 		btnRoll.setBounds(101, 388, 361, 23);
@@ -159,11 +165,16 @@ public class GreedGameGUI implements Observer {
 		playerListScrollPane
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		surroundingGamePanel.add(playerListScrollPane);
+
+		playerList = new JTextPane();
+		playerList.setText("mimimimi");
+		playerList.setEditable(false);
 		
-				playerList = new JTextPane();
-				playerListScrollPane.setViewportView(playerList);
-				playerList.setEditable(false);
-				playerList.setText("mimimimi");
+		Style style = playerList.getLogicalStyle();
+		StyleConstants.setTabSet(style, new TabSet(new TabStop[]{new TabStop(180)}));
+		playerList.setLogicalStyle(style);
+		
+		playerListScrollPane.setViewportView(playerList);
 
 		JLabel lblHistory = new JLabel("History");
 		lblHistory.setBounds(101, 11, 46, 14);
@@ -209,12 +220,17 @@ public class GreedGameGUI implements Observer {
 		playerAddList = new JTextPane();
 		playerAddList.setEditable(false);
 		playerAddList.setText("mimimimi");
+		
+		Style style = playerAddList.getLogicalStyle();
+		StyleConstants.setTabSet(style, new TabSet(new TabStop[]{new TabStop(180)}));
+		playerAddList.setLogicalStyle(style);
+		
 		playerAddListScrollPane.setViewportView(playerAddList);
 
 		JLabel lblPlayers = new JLabel("Players");
 		lblPlayers.setBounds(422, 11, 46, 14);
 		surroundingAddPlayerPanel.add(lblPlayers);
-		
+
 		JLabel labelPlayerType = new JLabel("Player type");
 		labelPlayerType.setBounds(10, 139, 66, 14);
 		surroundingAddPlayerPanel.add(labelPlayerType);
@@ -241,23 +257,23 @@ public class GreedGameGUI implements Observer {
 		for (JCheckBox checkBox : diceCheckBoxes)
 			checkBox.addActionListener(actionListener);
 	}
-	
+
 	public void addCreatePlayerActionListener(ActionListener actionListener) {
 		btnCreate.addActionListener(actionListener);
 	}
-	
+
 	public void addReturnActionListener(ActionListener actionListener) {
 		btnReturn.addActionListener(actionListener);
 	}
-	
+
 	public void setPlayerTypes(Iterable<String> playerTypes) {
 		playerTypeComboBox.removeAllItems();
 		for (String playerType : playerTypes)
 			playerTypeComboBox.addItem(playerType);
 	}
-	
+
 	public String getSelectedPlayerType() {
-		return (String)playerTypeComboBox.getSelectedItem();
+		return (String) playerTypeComboBox.getSelectedItem();
 	}
 
 	@Override
@@ -274,21 +290,21 @@ public class GreedGameGUI implements Observer {
 
 		case ADD_PLAYER:
 			displayAddPlayerPanel();
-			
+
 			playerAddList.setText(buildPlayerList());
 
 			break;
 		}
 	}
-	
+
 	private void updateGamePanel() {
-		
+
 		displayGamePanel();
-		
+
 		boolean localPlayer = model.isCurrentPlayerLocalGUI();
 		boolean canPlayerDecide = model.canDecide() && localPlayer;
 		btnBank.setEnabled(canPlayerDecide);
-		
+
 		if (model.getState() == ModelState.WAITING_FOR_FIRST_ROLL) {
 			btnAddPlayer.setEnabled(true);
 			btnRemoveCurrentPlayer.setEnabled(true);
@@ -305,7 +321,8 @@ public class GreedGameGUI implements Observer {
 		for (Dice d : dice) {
 			DiceState dState = d.getState();
 			diceCheckBoxes[i].setSelected(dState == DiceState.SELECTED);
-			diceCheckBoxes[i].setEnabled(dState != DiceState.RESERVED && model.isCurrentPlayerLocalGUI());
+			diceCheckBoxes[i].setEnabled(dState != DiceState.RESERVED
+					&& model.isCurrentPlayerLocalGUI());
 			diceCheckBoxes[i].setText(Integer.toString(d.getValue()));
 
 			i++;
@@ -327,17 +344,17 @@ public class GreedGameGUI implements Observer {
 
 		return playerStats.toString();
 	}
-	
+
 	private String buildHistory() {
-		
+
 		StringBuilder history = new StringBuilder();
-		
+
 		for (String s : model.getLog())
 			history.append(s + "\n");
-		
+
 		if (history.length() > 0)
 			history.deleteCharAt(history.length() - 1);
-		
+
 		return history.toString();
 	}
 
@@ -352,7 +369,7 @@ public class GreedGameGUI implements Observer {
 	public void displayAddPlayerPanel() {
 		frmGreedGame.setContentPane(surroundingAddPlayerPanel);
 	}
-	
+
 	public void dispose() {
 		frmGreedGame.dispose();
 	}
