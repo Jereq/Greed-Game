@@ -73,19 +73,22 @@ public class BasicScoringRules implements ScoringRules {
 		if (dice.size() < 6)
 			return null;
 		
-		Iterator<Dice> it = dice.iterator();
-		Dice d = it.next();
 		ArrayList<Dice> resDice = new ArrayList<Dice>(6);
 		
-		for (int i = 1; i <= 6; i++) {
-			if (d == null || d.getValue() != i)
+		int targetValue = 1;
+		for (Dice d : dice) {
+			
+			if (d.getValue() > targetValue)
 				return null;
 			
-			resDice.add(d);
-			
-			while (d != null && d.getValue() == i)
-				d = it.next();
+			if (d.getValue() == targetValue) {
+				resDice.add(d);
+				targetValue++;
+			}
 		}
+		
+		if (resDice.size() != 6)
+			return null;
 		
 		return new ScoringCombination("Street", 1000, resDice);
 	}
