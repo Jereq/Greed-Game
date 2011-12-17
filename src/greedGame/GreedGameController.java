@@ -10,6 +10,8 @@ import javax.swing.JCheckBox;
 
 import greedGame.model.Dice;
 import greedGame.model.GreedGameModel;
+import greedGame.model.player.Player;
+import greedGame.model.player.PlayerFactory;
 
 public class GreedGameController {
 	
@@ -23,15 +25,18 @@ public class GreedGameController {
 		}
 	}
 
-	GreedGameModel model;
-	GreedGameGUI view;
-	List<CheckBoxDicePair> checkBoxDiceMap;
+	private GreedGameModel model;
+	private GreedGameGUI view;
+	private List<CheckBoxDicePair> checkBoxDiceMap;
+	
+	private PlayerFactory playerFactory;
 	
 	public GreedGameController(GreedGameModel greedGameModel, GreedGameGUI greedGameView) {
 		
 		model = greedGameModel;
 		view = greedGameView;
 		checkBoxDiceMap = new ArrayList<CheckBoxDicePair>(6);
+		playerFactory = new PlayerFactory(model);
 		
 		Iterator<JCheckBox> boxIt = view.getDiceCheckBoxes().iterator();
 		Iterator<Dice> diceIt = model.getDice().iterator();
@@ -78,7 +83,10 @@ public class GreedGameController {
 		
 		view.addCreatePlayerActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.addHumanPlayer();
+				Player newPlayer = playerFactory.createPlayer(view.getSelectedPlayerType());
+				
+				if (newPlayer != null)
+					model.addPlayer(newPlayer);
 			}
 		});
 		
@@ -87,5 +95,7 @@ public class GreedGameController {
 				model.stopAddPlayer();
 			}
 		});
+		
+		view.setPlayerTypes(playerFactory.getPlayerTypes());
 	}
 }

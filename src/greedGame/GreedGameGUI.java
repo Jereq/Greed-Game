@@ -43,6 +43,7 @@ public class GreedGameGUI implements Observer {
 	private JButton btnCreate;
 	private JButton btnReturn;
 	private JTextPane playerAddList;
+	private JComboBox playerTypeComboBox;
 
 	private JLabel[] diceLabels;
 	private JCheckBox[] diceCheckBoxes;
@@ -224,9 +225,9 @@ public class GreedGameGUI implements Observer {
 		surroundingAddPlayerPanel = new JPanel();
 		surroundingAddPlayerPanel.setLayout(null);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(10, 73, 245, 20);
-		surroundingAddPlayerPanel.add(comboBox);
+		playerTypeComboBox = new JComboBox();
+		playerTypeComboBox.setBounds(10, 73, 245, 20);
+		surroundingAddPlayerPanel.add(playerTypeComboBox);
 
 		btnCreate = new JButton("Create Player");
 		btnCreate.setBounds(10, 39, 245, 23);
@@ -280,6 +281,16 @@ public class GreedGameGUI implements Observer {
 	
 	public void addReturnActionListener(ActionListener actionListener) {
 		btnReturn.addActionListener(actionListener);
+	}
+	
+	public void setPlayerTypes(Iterable<String> playerTypes) {
+		playerTypeComboBox.removeAllItems();
+		for (String playerType : playerTypes)
+			playerTypeComboBox.addItem(playerType);
+	}
+	
+	public String getSelectedPlayerType() {
+		return (String)playerTypeComboBox.getSelectedItem();
 	}
 
 	@Override

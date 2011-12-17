@@ -1,7 +1,6 @@
 package greedGame.model;
 
 import greedGame.model.player.Player;
-import greedGame.model.player.PlayerFactory;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,7 +24,6 @@ public class GreedGameModel extends Observable {
 	private List<Player> players;
 	private Iterator<Player> currentPlayerIterator;
 	private Player currentPlayer;
-	private PlayerFactory playerFactory;
 
 	private DiceHandler diceHandler;
 
@@ -41,7 +39,6 @@ public class GreedGameModel extends Observable {
 
 		players = new LinkedList<Player>();
 
-		playerFactory = new PlayerFactory(this);
 		state = ModelState.ADD_PLAYER;
 
 		diceHandler = new DiceHandler();
@@ -65,8 +62,7 @@ public class GreedGameModel extends Observable {
 				nextPlayer();
 			} else {
 				state = ModelState.WAITING_FOR_PLAYER_DECISION;
-				log.add("Waiting for " + currentPlayer.getName()
-						+ " to make a decision");
+				askPlayerForDicision();
 			}
 
 		} else if (state == ModelState.WAITING_FOR_PLAYER_DECISION)
@@ -78,7 +74,9 @@ public class GreedGameModel extends Observable {
 				if (diceHandler.getMaxPoints() == 0) {
 					log.add("BUST!");
 					nextPlayer();
-				}
+				} else
+					askPlayerForDicision();
+					
 			} catch (InvalidScoringCombinationsException e) {
 			}
 		else
@@ -108,6 +106,13 @@ public class GreedGameModel extends Observable {
 
 		modelChanged();
 	}
+	
+	private void askPlayerForDicision() {
+
+		log.add("Waiting for " + currentPlayer.getName()
+				+ " to make a decision");
+		currentPlayer.beginDecide();
+	}
 
 	private void addScore(int score) {
 		currentPlayer.addScore(score);
@@ -134,7 +139,7 @@ public class GreedGameModel extends Observable {
 
 		int newSubScore = getNewSubScore();
 
-		if (newSubScore < 1) {
+		if (newSubScore <= 0) {
 
 			log.add("Invalid combination or no dice selected");
 			throw new InvalidScoringCombinationsException();
@@ -197,14 +202,6 @@ public class GreedGameModel extends Observable {
 			throw new RuntimeException(
 					"addPlayer(Player) must not be called while in state "
 							+ state.toString());
-	}
-
-	public void addHumanPlayer() {
-		addPlayer(playerFactory.createHumanPlayer());
-	}
-
-	public void addCowardAIPlayer() {
-		addPlayer(playerFactory.createCowardAIPlayer());
 	}
 
 	public void removeCurrentPlayer() {
