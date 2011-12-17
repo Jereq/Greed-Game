@@ -72,10 +72,20 @@ public class GreedGameController {
 		
 		view.addAddPlayerActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				model.startAddPlayer();
+			}
+		});
+		
+		view.addCreatePlayerActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				model.addHumanPlayer();
 			}
 		});
 		
-		model.addHumanPlayer();
+		view.addCancelAddPlayerActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.stopAddPlayer();
+			}
+		});
 	}
 }

@@ -22,7 +22,11 @@ public class GreedGame {
 			setup = new SetupGUI();
 			setup.addStartGameActionListener( new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					setup.setVisible(false);
+					
+					if (view != null)
+						view.dispose();
 					
 					model = new GreedGameModel(setup.getBustLimit(), setup.getPointsToWin());
 					view = new GreedGameGUI(model);
