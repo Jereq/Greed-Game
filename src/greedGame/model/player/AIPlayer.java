@@ -1,8 +1,10 @@
 package greedGame.model.player;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import greedGame.model.Dice;
+import greedGame.model.DiceState;
 import greedGame.model.GreedGameModel;
 import greedGame.model.ScoringCombination;
 import greedGame.model.ScoringRules;
@@ -95,6 +97,15 @@ public abstract class AIPlayer implements Player {
 	
 	protected List<Dice> getUnreservedDice() {
 		return gameModel.getUnreservedDice();
+	}
+	
+	protected List<Dice> getUnselectedDice() {
+		List<Dice> unselDice = new LinkedList<Dice>();
+		for (Dice d : getUnreservedDice())
+			if (d.getState() != DiceState.SELECTED)
+				unselDice.add(d);
+		
+		return unselDice;
 	}
 	
 	protected List<Player> getPlayers() {
