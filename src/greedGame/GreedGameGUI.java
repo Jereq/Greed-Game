@@ -3,6 +3,7 @@ package greedGame;
 import greedGame.model.Dice;
 import greedGame.model.DiceState;
 import greedGame.model.GreedGameModel;
+import greedGame.model.GreedGameModel.ModelState;
 import greedGame.model.player.Player;
 
 import javax.swing.JFrame;
@@ -37,9 +38,10 @@ public class GreedGameGUI implements Observer {
 	private JButton btnRoll;
 	private JButton btnBank;
 	private JTextPane playerList;
+	private JTextPane historyPane;
 	
 	private JButton btnCreate;
-	private JButton btnCancel;
+	private JButton btnReturn;
 	private JTextPane playerAddList;
 
 	private JLabel[] diceLabels;
@@ -211,7 +213,7 @@ public class GreedGameGUI implements Observer {
 		historyScrollPane.setBounds(105, 35, 209, 198);
 		surroundingGamePanel.add(historyScrollPane);
 
-		JTextPane historyPane = new JTextPane();
+		historyPane = new JTextPane();
 		historyPane.setEditable(false);
 		historyScrollPane.setViewportView(historyPane);
 		historyPane.setText("muu");
@@ -230,9 +232,9 @@ public class GreedGameGUI implements Observer {
 		btnCreate.setBounds(10, 39, 245, 23);
 		surroundingAddPlayerPanel.add(btnCreate);
 
-		btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(265, 275, 239, 23);
-		surroundingAddPlayerPanel.add(btnCancel);
+		btnReturn = new JButton("Return");
+		btnReturn.setBounds(265, 275, 239, 23);
+		surroundingAddPlayerPanel.add(btnReturn);
 
 		JScrollPane playerAddListScrollPane = new JScrollPane();
 		playerAddListScrollPane
@@ -276,8 +278,8 @@ public class GreedGameGUI implements Observer {
 		btnCreate.addActionListener(actionListener);
 	}
 	
-	public void addCancelAddPlayerActionListener(ActionListener actionListener) {
-		btnCancel.addActionListener(actionListener);
+	public void addReturnActionListener(ActionListener actionListener) {
+		btnReturn.addActionListener(actionListener);
 	}
 
 	@Override
@@ -287,25 +289,9 @@ public class GreedGameGUI implements Observer {
 			return;
 
 		switch (model.getState()) {
-		case FIRST_ROLL:
-		case PLAYER_DECISION:
-			displayGamePanel();
-
-			List<Dice> dice = model.getDice();
-
-			int i = 0;
-			for (Dice d : dice) {
-				diceLabels[i].setText(Integer.toString(d.getValue()));
-
-				DiceState dState = d.getState();
-				diceCheckBoxes[i].setSelected(dState == DiceState.SELECTED);
-				diceCheckBoxes[i].setEnabled(dState != DiceState.RESERVED);
-
-				i++;
-			}
-
-			playerList.setText(buildPlayerList());
-
+		case WAITING_FOR_FIRST_ROLL:
+		case WAITING_FOR_PLAYER_DECISION:
+			updateGamePanel();
 			break;
 
 		case ADD_PLAYER:
@@ -315,6 +301,39 @@ public class GreedGameGUI implements Observer {
 
 			break;
 		}
+	}
+	
+	private void updateGamePanel() {
+		
+		displayGamePanel();
+		
+		boolean canDecide = model.canDecide();
+		btnBank.setEnabled(canDecide);
+		
+		if (model.getState() == ModelState.WAITING_FOR_FIRST_ROLL) {
+			btnAddPlayer.setEnabled(true);
+			btnRemoveCurrentPlayer.setEnabled(true);
+		} else {
+			btnAddPlayer.setEnabled(false);
+			btnRemoveCurrentPlayer.setEnabled(false);
+			btnRoll.setEnabled(canDecide);
+		}
+
+		List<Dice> dice = model.getDice();
+
+		int i = 0;
+		for (Dice d : dice) {
+			diceLabels[i].setText(Integer.toString(d.getValue()));
+
+			DiceState dState = d.getState();
+			diceCheckBoxes[i].setSelected(dState == DiceState.SELECTED);
+			diceCheckBoxes[i].setEnabled(dState != DiceState.RESERVED);
+
+			i++;
+		}
+
+		playerList.setText(buildPlayerList());
+		historyPane.setText(buildHistory());
 	}
 
 	private String buildPlayerList() {
@@ -328,6 +347,19 @@ public class GreedGameGUI implements Observer {
 			playerStats.deleteCharAt(playerStats.length() - 1);
 
 		return playerStats.toString();
+	}
+	
+	private String buildHistory() {
+		
+		StringBuilder history = new StringBuilder();
+		
+		for (String s : model.getLog())
+			history.append(s + "\n");
+		
+		if (history.length() > 0)
+			history.deleteCharAt(history.length() - 1);
+		
+		return history.toString();
 	}
 
 	public List<JCheckBox> getDiceCheckBoxes() {

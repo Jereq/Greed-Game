@@ -10,7 +10,7 @@ public class Dice implements Comparable<Dice> {
 	
 	public Dice(Random rnd) {
 		this.rnd = rnd;
-		roll();
+		state = DiceState.RESERVED;
 	}
 	
 	public int getValue() {
@@ -18,6 +18,7 @@ public class Dice implements Comparable<Dice> {
 	}
 	
 	public void roll() {
+		state = DiceState.FREE;
 		value = rnd.nextInt(6) + 1;
 	}
 	

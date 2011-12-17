@@ -11,7 +11,15 @@ import java.util.Observable;
 public class GreedGameModel extends Observable {
 
 	public enum ModelState {
-		ADD_PLAYER, FIRST_ROLL, PLAYER_DECISION, GAME_OVER
+		ADD_PLAYER, WAITING_FOR_FIRST_ROLL, WAITING_FOR_PLAYER_DECISION, GAME_OVER
+	}
+
+	private class InvalidScoringCombinationsException extends Exception {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 	}
 
 	private List<Player> players;
@@ -27,6 +35,8 @@ public class GreedGameModel extends Observable {
 	private int firstRollScoreLimit;
 	private int winScoreLimit;
 
+	private List<String> log;
+
 	public GreedGameModel(int firstRollScoreLimit, int winScoreLimit) {
 
 		players = new LinkedList<Player>();
@@ -38,53 +48,122 @@ public class GreedGameModel extends Observable {
 
 		this.firstRollScoreLimit = firstRollScoreLimit;
 		this.winScoreLimit = winScoreLimit;
+
+		log = new LinkedList<String>();
+		log.add("Game started");
 	}
 
-	public void rollDice() {
-		if (state == ModelState.FIRST_ROLL) {
-			diceHandler.rollDice();
-			if (diceHandler.getMaxPoints() < firstRollScoreLimit)
+	public void tryRollDice() {
+
+		if (state == ModelState.WAITING_FOR_FIRST_ROLL) {
+
+			rollDice();
+
+			if (diceHandler.getMaxPoints() < firstRollScoreLimit) {
+				log.add(currentPlayer.getName()
+						+ " did not meet the first roll limit, BUST!");
 				nextPlayer();
-		} else if (state == ModelState.PLAYER_DECISION) {
-			updateSubScore();
-			diceHandler.rollDice();
-		} else {
-			throw new RuntimeException();
-		}
+			} else {
+				state = ModelState.WAITING_FOR_PLAYER_DECISION;
+				log.add("Waiting for " + currentPlayer.getName()
+						+ " to make a decision");
+			}
+
+		} else if (state == ModelState.WAITING_FOR_PLAYER_DECISION)
+			try {
+				updateSubScore();
+				log.add("Current subscore: " + currentSubScore);
+				rollDice();
+
+				if (diceHandler.getMaxPoints() == 0) {
+					log.add("BUST!");
+					nextPlayer();
+				}
+			} catch (InvalidScoringCombinationsException e) {
+			}
+		else
+			log.add("ERROR: Rolling dice not allowed while in state "
+					+ state.toString());
 
 		modelChanged();
 	}
 
 	public void bank() {
-		updateSubScore();
-		currentPlayer.addScore(currentSubScore);
 
-		if (currentPlayer.getScore() >= winScoreLimit)
-			endGame();
+		if (state == ModelState.WAITING_FOR_PLAYER_DECISION) {
 
-		nextPlayer();
+			try {
+				updateSubScore();
+				addScore(currentSubScore);
+
+				if (currentPlayer.getScore() >= winScoreLimit)
+					endGame();
+
+				nextPlayer();
+			} catch (InvalidScoringCombinationsException e) {
+			}
+		} else
+			log.add("ERROR: Banking is not allowed in state "
+					+ state.toString());
+
 		modelChanged();
+	}
+
+	private void addScore(int score) {
+		currentPlayer.addScore(score);
+		log.add(currentPlayer.getName() + " banked " + score + " points");
 	}
 
 	private void endGame() {
 		state = ModelState.GAME_OVER;
-		modelChanged();
+		log.add("Game ended");
+
 		// TODO: End the game
+
+		modelChanged();
 	}
 
-	private void updateSubScore() {
+	private void rollDice() {
+
+		diceHandler.reserveSelectedDice();
+		diceHandler.rollDice();
+		log.add(currentPlayer.getName() + " rolled the dice");
+
+	}
+
+	private void updateSubScore() throws InvalidScoringCombinationsException {
+
+		int newSubScore = getNewSubScore();
+
+		if (newSubScore < 1) {
+
+			log.add("Invalid combination or no dice selected");
+			throw new InvalidScoringCombinationsException();
+		}
+
+		if (currentSubScore == 0 && newSubScore < firstRollScoreLimit) {
+			log.add("First roll must pass the first roll score limit: "
+					+ firstRollScoreLimit);
+			throw new InvalidScoringCombinationsException();
+		}
+
+		currentSubScore += newSubScore;
+	}
+
+	private int getNewSubScore() {
 
 		List<ScoringCombination> combinations = diceHandler
 				.getScoringCombinations();
 
-		if (combinations.isEmpty())
-			return;
+		if (combinations.isEmpty()
+				|| combinations.get(combinations.size() - 1).getScore() == 0)
+			return 0;
 
-		if (combinations.get(combinations.size() - 1).getScore() == 0)
-			return;
-
+		int result = 0;
 		for (ScoringCombination c : combinations)
-			currentSubScore += c.getScore();
+			result += c.getScore();
+
+		return result;
 	}
 
 	private void modelChanged() {
@@ -101,19 +180,17 @@ public class GreedGameModel extends Observable {
 
 		currentPlayer = currentPlayerIterator.next();
 		currentSubScore = 0;
+		diceHandler.reserveAllDice();
 
+		state = ModelState.WAITING_FOR_FIRST_ROLL;
+		log.add("Waiting for " + currentPlayer.getName() + " to roll");
 		currentPlayer.beginTurn();
 	}
 
 	public void addPlayer(Player player) {
 
 		if (state == ModelState.ADD_PLAYER) {
-			
 			players.add(player);
-
-			if (players.size() == 1)
-				nextPlayer();
-
 			modelChanged();
 		} else
 			throw new RuntimeException();
@@ -169,22 +246,38 @@ public class GreedGameModel extends Observable {
 	}
 
 	public void startAddPlayer() {
-		if (state != ModelState.FIRST_ROLL)
+		if (state != ModelState.WAITING_FOR_FIRST_ROLL)
 			throw new RuntimeException();
 
 		state = ModelState.ADD_PLAYER;
 		modelChanged();
 	}
-	
+
 	public void stopAddPlayer() {
 		if (state != ModelState.ADD_PLAYER)
 			throw new RuntimeException();
-		
+
 		if (players.size() == 0)
 			endGame();
-		else
-			state = ModelState.FIRST_ROLL;
+		else {
+			if (currentPlayer == null)
+				nextPlayer();
+
+			state = ModelState.WAITING_FOR_FIRST_ROLL;
+		}
 
 		modelChanged();
+	}
+
+	public List<String> getLog() {
+		return log;
+	}
+
+	public int getSubScore() {
+		return currentSubScore;
+	}
+
+	public boolean canDecide() {
+		return (state == ModelState.WAITING_FOR_PLAYER_DECISION && currentSubScore + getNewSubScore() >= firstRollScoreLimit);
 	}
 }

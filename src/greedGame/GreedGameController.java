@@ -66,7 +66,7 @@ public class GreedGameController {
 		
 		view.addRollActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.rollDice();
+				model.tryRollDice();
 			}
 		});
 		
@@ -82,7 +82,7 @@ public class GreedGameController {
 			}
 		});
 		
-		view.addCancelAddPlayerActionListener( new ActionListener() {
+		view.addReturnActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.stopAddPlayer();
 			}

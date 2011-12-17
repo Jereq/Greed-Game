@@ -45,7 +45,7 @@ public abstract class AIPlayer implements Player {
 	}
 	
 	protected void rollDice() {
-		gameModel.rollDice();
+		gameModel.tryRollDice();
 	}
 	
 	protected void selectDice(Dice dice) {

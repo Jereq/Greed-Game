@@ -99,9 +99,12 @@ public class BasicScoringRules implements ScoringRules {
 		int value = d.getValue();
 		
 		ArrayList<Dice> resDice = new ArrayList<Dice>(3);
+		resDice.add(d);
 		
-		while (d != null && resDice.size() < 3)
+		while (it.hasNext() && resDice.size() < 3)
 		{
+			d = it.next();
+			
 			if (d.getValue() == value)
 				resDice.add(d);
 			else

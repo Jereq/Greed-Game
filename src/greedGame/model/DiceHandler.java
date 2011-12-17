@@ -23,8 +23,18 @@ public class DiceHandler {
 	}
 	
 	public void rollDice() {
+		
+		boolean isAllReserved = true;
+		
 		for (Dice d : dice) {
-			if (d.getState() == DiceState.FREE)
+			if (d.getState() != DiceState.RESERVED) {
+				isAllReserved = false;
+				break;
+			}
+		}
+		
+		for (Dice d : dice) {
+			if (isAllReserved || d.getState() == DiceState.FREE)
 				d.roll();
 		}
 	}
@@ -51,7 +61,7 @@ public class DiceHandler {
 		selDice.setState(DiceState.FREE);
 	}
 	
-	private List<Dice> getSelectedDice() {
+	public List<Dice> getSelectedDice() {
 		
 		ArrayList<Dice> selectedDice = new ArrayList<Dice>(numberOfDice);
 		for (Dice d : dice) {
@@ -79,5 +89,10 @@ public class DiceHandler {
 	
 	public ScoringRules getScoringRules() {
 		return rules;
+	}
+	
+	public void reserveAllDice() {
+		for (Dice d : dice)
+			d.setState(DiceState.RESERVED);
 	}
 }
