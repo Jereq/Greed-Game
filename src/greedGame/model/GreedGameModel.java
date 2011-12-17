@@ -62,7 +62,7 @@ public class GreedGameModel extends Observable {
 				nextPlayer();
 			} else {
 				state = ModelState.WAITING_FOR_PLAYER_DECISION;
-				askPlayerForDicision();
+				askPlayerForDecision();
 			}
 
 		} else if (state == ModelState.WAITING_FOR_PLAYER_DECISION)
@@ -75,7 +75,7 @@ public class GreedGameModel extends Observable {
 					log.add("BUST!");
 					nextPlayer();
 				} else
-					askPlayerForDicision();
+					askPlayerForDecision();
 					
 			} catch (InvalidScoringCombinationsException e) {
 			}
@@ -107,7 +107,7 @@ public class GreedGameModel extends Observable {
 		modelChanged();
 	}
 	
-	private void askPlayerForDicision() {
+	private void askPlayerForDecision() {
 
 		log.add("Waiting for " + currentPlayer.getName()
 				+ " to make a decision");
@@ -227,6 +227,14 @@ public class GreedGameModel extends Observable {
 
 	public List<Dice> getUnreservedDice() {
 		return diceHandler.getUnreservedDice();
+	}
+	
+	public List<Dice> getSelectedDice() {
+		return diceHandler.getSelectedDice();
+	}
+	
+	public List<Dice> getFreeDice() {
+		return diceHandler.getFreeDice();
 	}
 
 	public List<Dice> getDice() {
