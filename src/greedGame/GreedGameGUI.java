@@ -12,6 +12,8 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
@@ -28,6 +30,7 @@ import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 
 public class GreedGameGUI implements Observer {
 
@@ -94,7 +97,7 @@ public class GreedGameGUI implements Observer {
 		frmGreedGame = new JFrame();
 		frmGreedGame.setTitle("Greed Game");
 		frmGreedGame.setBounds(100, 100, 740, 460);
-		frmGreedGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGreedGame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		initializeGamePanel();
 		initializeAddPlayerPanel();
@@ -265,6 +268,10 @@ public class GreedGameGUI implements Observer {
 	public void addReturnActionListener(ActionListener actionListener) {
 		btnReturn.addActionListener(actionListener);
 	}
+	
+	public void addWindowListener(WindowListener windowListener) {
+		frmGreedGame.addWindowListener(windowListener);
+	}
 
 	public void setPlayerTypes(Iterable<String> playerTypes) {
 		playerTypeComboBox.removeAllItems();
@@ -293,6 +300,15 @@ public class GreedGameGUI implements Observer {
 
 			playerAddList.setText(buildPlayerList());
 
+			break;
+			
+		case GAME_OVER:
+			
+			WindowEvent windowEvent = new WindowEvent(frmGreedGame, WindowEvent.WINDOW_CLOSING);
+			Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowEvent);
+			
+			frmGreedGame.dispose();
+			
 			break;
 		}
 	}

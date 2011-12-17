@@ -96,8 +96,8 @@ public class GreedGameModel extends Observable {
 
 				if (currentPlayer.getScore() >= winScoreLimit)
 					endGame();
-
-				nextPlayer();
+				else
+					nextPlayer();
 			} catch (InvalidScoringCombinationsException e) {
 			}
 		} else
@@ -122,8 +122,6 @@ public class GreedGameModel extends Observable {
 	private void endGame() {
 		state = ModelState.GAME_OVER;
 		log.add("Game ended");
-
-		modelChanged();
 	}
 
 	private void rollDice() {
@@ -300,5 +298,12 @@ public class GreedGameModel extends Observable {
 
 	public boolean isCurrentPlayerLocalGUI() {
 		return currentPlayer.isLocalGUIPlayer();
+	}
+	
+	public Player getWinningPlayer() {
+		if (state == ModelState.GAME_OVER && currentPlayer.getScore() >= winScoreLimit)
+			return currentPlayer;
+		else
+			return null;
 	}
 }
