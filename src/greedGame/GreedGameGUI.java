@@ -24,6 +24,7 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextPane;
+import java.awt.Font;
 
 public class GreedGameGUI implements Observer {
 
@@ -104,7 +105,7 @@ public class GreedGameGUI implements Observer {
 		surroundingGamePanel.setLayout(null);
 
 		JPanel dicePanel = new JPanel();
-		dicePanel.setBounds(10, 11, 85, 290);
+		dicePanel.setBounds(10, 11, 85, 400);
 		surroundingGamePanel.add(dicePanel);
 		dicePanel.setLayout(new MigLayout("", "[][][]",
 				"[][][][][][][][][][][]"));
@@ -113,6 +114,7 @@ public class GreedGameGUI implements Observer {
 		diceCheckBoxes = new JCheckBox[6];
 
 		JLabel diceLabel1 = new JLabel("A");
+		diceLabel1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		dicePanel.add(diceLabel1, "cell 0 0");
 		diceLabels[0] = diceLabel1;
 
@@ -120,10 +122,8 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceCheckbox1, "cell 2 0");
 		diceCheckBoxes[0] = diceCheckbox1;
 
-		Component verticalStrut = Box.createVerticalStrut(20);
-		dicePanel.add(verticalStrut, "cell 2 1");
-
 		JLabel diceLabel2 = new JLabel("B");
+		diceLabel2.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		dicePanel.add(diceLabel2, "cell 0 2");
 		diceLabels[1] = diceLabel2;
 
@@ -131,10 +131,8 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceCheckbox2, "cell 2 2");
 		diceCheckBoxes[1] = diceCheckbox2;
 
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		dicePanel.add(verticalStrut_1, "cell 2 3");
-
 		JLabel diceLabel3 = new JLabel("C");
+		diceLabel3.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		dicePanel.add(diceLabel3, "cell 0 4");
 		diceLabels[2] = diceLabel3;
 
@@ -142,10 +140,8 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceCheckbox3, "cell 2 4");
 		diceCheckBoxes[2] = diceCheckbox3;
 
-		Component verticalStrut_2 = Box.createVerticalStrut(20);
-		dicePanel.add(verticalStrut_2, "cell 2 5");
-
 		JLabel diceLabel4 = new JLabel("D");
+		diceLabel4.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		dicePanel.add(diceLabel4, "cell 0 6");
 		diceLabels[3] = diceLabel4;
 
@@ -153,10 +149,8 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceCheckbox4, "cell 2 6");
 		diceCheckBoxes[3] = diceCheckbox4;
 
-		Component verticalStrut_3 = Box.createVerticalStrut(20);
-		dicePanel.add(verticalStrut_3, "cell 2 7");
-
 		JLabel diceLabel5 = new JLabel("E");
+		diceLabel5.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		dicePanel.add(diceLabel5, "cell 0 8");
 		diceLabels[4] = diceLabel5;
 
@@ -164,10 +158,8 @@ public class GreedGameGUI implements Observer {
 		dicePanel.add(diceCheckbox5, "cell 2 8");
 		diceCheckBoxes[4] = diceCheckbox5;
 
-		Component verticalStrut_4 = Box.createVerticalStrut(20);
-		dicePanel.add(verticalStrut_4, "cell 2 9");
-
 		JLabel diceLabel6 = new JLabel("F");
+		diceLabel6.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		dicePanel.add(diceLabel6, "cell 0 10");
 		diceLabels[5] = diceLabel6;
 
@@ -176,23 +168,23 @@ public class GreedGameGUI implements Observer {
 		diceCheckBoxes[5] = diceCheckbox6;
 
 		btnRoll = new JButton("Roll");
-		btnRoll.setBounds(212, 278, 292, 23);
+		btnRoll.setBounds(170, 388, 292, 23);
 		surroundingGamePanel.add(btnRoll);
 
 		btnBank = new JButton("Bank");
-		btnBank.setBounds(212, 244, 292, 23);
+		btnBank.setBounds(170, 354, 292, 23);
 		surroundingGamePanel.add(btnBank);
 
 		btnRemoveCurrentPlayer = new JButton("Remove Current Player");
-		btnRemoveCurrentPlayer.setBounds(534, 278, 180, 23);
+		btnRemoveCurrentPlayer.setBounds(472, 388, 242, 23);
 		surroundingGamePanel.add(btnRemoveCurrentPlayer);
 
 		btnAddPlayer = new JButton("Add New Player");
-		btnAddPlayer.setBounds(534, 244, 180, 23);
+		btnAddPlayer.setBounds(472, 354, 242, 23);
 		surroundingGamePanel.add(btnAddPlayer);
 
 		JScrollPane playerListScrollPane = new JScrollPane();
-		playerListScrollPane.setBounds(534, 35, 180, 198);
+		playerListScrollPane.setBounds(472, 35, 242, 308);
 		playerListScrollPane
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		surroundingGamePanel.add(playerListScrollPane);
@@ -203,15 +195,15 @@ public class GreedGameGUI implements Observer {
 				playerList.setText("mimimimi");
 
 		JLabel lblHistory = new JLabel("History");
-		lblHistory.setBounds(212, 11, 46, 14);
+		lblHistory.setBounds(170, 10, 46, 14);
 		surroundingGamePanel.add(lblHistory);
 
 		JLabel lblPlayers = new JLabel("Players");
-		lblPlayers.setBounds(534, 10, 46, 14);
+		lblPlayers.setBounds(472, 11, 46, 14);
 		surroundingGamePanel.add(lblPlayers);
 
 		JScrollPane historyScrollPane = new JScrollPane();
-		historyScrollPane.setBounds(212, 35, 292, 198);
+		historyScrollPane.setBounds(170, 35, 292, 308);
 		surroundingGamePanel.add(historyScrollPane);
 
 		historyPane = new JTextPane();
