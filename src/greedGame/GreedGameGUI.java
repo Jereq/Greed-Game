@@ -11,14 +11,12 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
@@ -46,7 +44,6 @@ public class GreedGameGUI implements Observer {
 	private JTextPane playerAddList;
 	private JComboBox playerTypeComboBox;
 
-	private JLabel[] diceLabels;
 	private JCheckBox[] diceCheckBoxes;
 
 	/*
@@ -105,74 +102,48 @@ public class GreedGameGUI implements Observer {
 		surroundingGamePanel.setLayout(null);
 
 		JPanel dicePanel = new JPanel();
-		dicePanel.setBounds(10, 11, 85, 400);
+		dicePanel.setBounds(10, 11, 81, 400);
 		surroundingGamePanel.add(dicePanel);
-		dicePanel.setLayout(new MigLayout("", "[][][]",
-				"[][][][][][][][][][][]"));
+		dicePanel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][]"));
 
-		diceLabels = new JLabel[6];
 		diceCheckBoxes = new JCheckBox[6];
-
-		JLabel diceLabel1 = new JLabel("A");
-		diceLabel1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		dicePanel.add(diceLabel1, "cell 0 0");
-		diceLabels[0] = diceLabel1;
-
-		JCheckBox diceCheckbox1 = new JCheckBox("");
-		dicePanel.add(diceCheckbox1, "cell 2 0");
-		diceCheckBoxes[0] = diceCheckbox1;
-
-		JLabel diceLabel2 = new JLabel("B");
-		diceLabel2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		dicePanel.add(diceLabel2, "cell 0 2");
-		diceLabels[1] = diceLabel2;
-
-		JCheckBox diceCheckbox2 = new JCheckBox("");
-		dicePanel.add(diceCheckbox2, "cell 2 2");
-		diceCheckBoxes[1] = diceCheckbox2;
-
-		JLabel diceLabel3 = new JLabel("C");
-		diceLabel3.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		dicePanel.add(diceLabel3, "cell 0 4");
-		diceLabels[2] = diceLabel3;
-
-		JCheckBox diceCheckbox3 = new JCheckBox("");
-		dicePanel.add(diceCheckbox3, "cell 2 4");
-		diceCheckBoxes[2] = diceCheckbox3;
-
-		JLabel diceLabel4 = new JLabel("D");
-		diceLabel4.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		dicePanel.add(diceLabel4, "cell 0 6");
-		diceLabels[3] = diceLabel4;
-
-		JCheckBox diceCheckbox4 = new JCheckBox("");
-		dicePanel.add(diceCheckbox4, "cell 2 6");
-		diceCheckBoxes[3] = diceCheckbox4;
-
-		JLabel diceLabel5 = new JLabel("E");
-		diceLabel5.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		dicePanel.add(diceLabel5, "cell 0 8");
-		diceLabels[4] = diceLabel5;
-
-		JCheckBox diceCheckbox5 = new JCheckBox("");
-		dicePanel.add(diceCheckbox5, "cell 2 8");
-		diceCheckBoxes[4] = diceCheckbox5;
-
-		JLabel diceLabel6 = new JLabel("F");
-		diceLabel6.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		dicePanel.add(diceLabel6, "cell 0 10");
-		diceLabels[5] = diceLabel6;
-
-		JCheckBox diceCheckbox6 = new JCheckBox("");
-		dicePanel.add(diceCheckbox6, "cell 2 10");
-		diceCheckBoxes[5] = diceCheckbox6;
+		
+				JCheckBox diceCheckbox1 = new JCheckBox("A");
+				diceCheckbox1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+				dicePanel.add(diceCheckbox1, "cell 0 0");
+				diceCheckBoxes[0] = diceCheckbox1;
+		
+				JCheckBox diceCheckbox2 = new JCheckBox("B");
+				diceCheckbox2.setFont(new Font("Tahoma", Font.PLAIN, 24));
+				dicePanel.add(diceCheckbox2, "cell 0 2");
+				diceCheckBoxes[1] = diceCheckbox2;
+		
+				JCheckBox diceCheckbox3 = new JCheckBox("C");
+				diceCheckbox3.setFont(new Font("Tahoma", Font.PLAIN, 24));
+				dicePanel.add(diceCheckbox3, "cell 0 4");
+				diceCheckBoxes[2] = diceCheckbox3;
+		
+				JCheckBox diceCheckbox4 = new JCheckBox("D");
+				diceCheckbox4.setFont(new Font("Tahoma", Font.PLAIN, 24));
+				dicePanel.add(diceCheckbox4, "cell 0 6");
+				diceCheckBoxes[3] = diceCheckbox4;
+		
+				JCheckBox diceCheckbox5 = new JCheckBox("E");
+				diceCheckbox5.setFont(new Font("Tahoma", Font.PLAIN, 24));
+				dicePanel.add(diceCheckbox5, "cell 0 8");
+				diceCheckBoxes[4] = diceCheckbox5;
+		
+				JCheckBox diceCheckbox6 = new JCheckBox("F");
+				diceCheckbox6.setFont(new Font("Tahoma", Font.PLAIN, 24));
+				dicePanel.add(diceCheckbox6, "cell 0 10");
+				diceCheckBoxes[5] = diceCheckbox6;
 
 		btnRoll = new JButton("Roll");
-		btnRoll.setBounds(170, 388, 292, 23);
+		btnRoll.setBounds(101, 388, 361, 23);
 		surroundingGamePanel.add(btnRoll);
 
 		btnBank = new JButton("Bank");
-		btnBank.setBounds(170, 354, 292, 23);
+		btnBank.setBounds(101, 354, 361, 23);
 		surroundingGamePanel.add(btnBank);
 
 		btnRemoveCurrentPlayer = new JButton("Remove Current Player");
@@ -195,7 +166,7 @@ public class GreedGameGUI implements Observer {
 				playerList.setText("mimimimi");
 
 		JLabel lblHistory = new JLabel("History");
-		lblHistory.setBounds(170, 10, 46, 14);
+		lblHistory.setBounds(101, 11, 46, 14);
 		surroundingGamePanel.add(lblHistory);
 
 		JLabel lblPlayers = new JLabel("Players");
@@ -203,7 +174,7 @@ public class GreedGameGUI implements Observer {
 		surroundingGamePanel.add(lblPlayers);
 
 		JScrollPane historyScrollPane = new JScrollPane();
-		historyScrollPane.setBounds(170, 35, 292, 308);
+		historyScrollPane.setBounds(101, 35, 361, 308);
 		surroundingGamePanel.add(historyScrollPane);
 
 		historyPane = new JTextPane();
@@ -332,11 +303,10 @@ public class GreedGameGUI implements Observer {
 
 		int i = 0;
 		for (Dice d : dice) {
-			diceLabels[i].setText(Integer.toString(d.getValue()));
-
 			DiceState dState = d.getState();
 			diceCheckBoxes[i].setSelected(dState == DiceState.SELECTED);
 			diceCheckBoxes[i].setEnabled(dState != DiceState.RESERVED && model.isCurrentPlayerLocalGUI());
+			diceCheckBoxes[i].setText(Integer.toString(d.getValue()));
 
 			i++;
 		}
