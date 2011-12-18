@@ -38,6 +38,7 @@ public class GreedGameModel extends Observable {
 	public GreedGameModel(int firstRollScoreLimit, int winScoreLimit) {
 
 		players = new LinkedList<Player>();
+		currentPlayerIterator = players.listIterator();
 
 		state = ModelState.ADD_PLAYER;
 
@@ -184,15 +185,21 @@ public class GreedGameModel extends Observable {
 
 	//Changes current player.
 	private void nextPlayer() {
-		if (state == ModelState.GAME_OVER)
-			throw new RuntimeException(
-					"nextPlayer() must not be called while in state "
-							+ state.toString());
+		if (state == ModelState.GAME_OVER || state == ModelState.ADD_PLAYER) {
+			log.add("Switching player not allowed while in state "
+					+ state.toString());
+			return;
+		}
 
-		if (currentPlayerIterator == null || !currentPlayerIterator.hasNext())
+		if (!currentPlayerIterator.hasNext())
 			currentPlayerIterator = players.listIterator();
 
 		currentPlayer = currentPlayerIterator.next();
+		askPlayerToBegin();
+	}
+
+	private void askPlayerToBegin() {
+
 		currentSubScore = 0;
 		diceHandler.reserveAllDice();
 
@@ -205,16 +212,15 @@ public class GreedGameModel extends Observable {
 	public void addPlayer(Player player) {
 
 		if (state == ModelState.ADD_PLAYER) {
-			if (currentPlayerIterator == null)
-				currentPlayerIterator = players.listIterator();
+
 			currentPlayerIterator.add(player);
+
 			log.add(player.getName() + " joined the game");
 			
 			modelChanged();
 		} else
-			throw new RuntimeException(
-					"addPlayer(Player) must not be called while in state "
-							+ state.toString());
+			log.add("addPlayer(Player) must not be called while in state "
+					+ state.toString());
 	}
 
 	//removes the player currently active
@@ -279,11 +285,11 @@ public class GreedGameModel extends Observable {
 
 	//Opens the add player screen.
 	public void startAddPlayer() {
-		if (state != ModelState.WAITING_FOR_FIRST_ROLL)
-			throw new RuntimeException(
-					"startAddPLayer() must not be called while in state "
-							+ state.toString()
-							+ ", only in WAITING_FOR_FIRST_ROLL");
+		if (state != ModelState.WAITING_FOR_FIRST_ROLL) {
+			log.add("ERROR: startAddPLayer() must not be called while in state "
+					+ state.toString() + ", only in WAITING_FOR_FIRST_ROLL");
+			return;
+		}
 
 		state = ModelState.ADD_PLAYER;
 		modelChanged();
@@ -291,18 +297,21 @@ public class GreedGameModel extends Observable {
 
 	//Closes the add player screen.
 	public void stopAddPlayer() {
-		if (state != ModelState.ADD_PLAYER)
-			throw new RuntimeException(
-					"stopAddPlayer() must not be called while in state "
-							+ state.toString() + ", only in ADD_PLAYER");
+		if (state != ModelState.ADD_PLAYER) {
+			log.add("ERROR: stopAddPlayer() must not be called while in state "
+					+ state.toString() + ", only in ADD_PLAYER");
+			return;
+		}
 
 		if (players.size() == 0)
 			endGame();
 		else {
+			state = ModelState.WAITING_FOR_FIRST_ROLL;
+
 			if (currentPlayer == null)
 				nextPlayer();
-
-			state = ModelState.WAITING_FOR_FIRST_ROLL;
+			else
+				askPlayerToBegin();
 		}
 
 		modelChanged();
@@ -331,7 +340,8 @@ public class GreedGameModel extends Observable {
 	
 	//Returns the winning player or null.
 	public Player getWinningPlayer() {
-		if (state == ModelState.GAME_OVER && currentPlayer.getScore() >= winScoreLimit)
+		if (state == ModelState.GAME_OVER && currentPlayer != null
+				&& currentPlayer.getScore() >= winScoreLimit)
 			return currentPlayer;
 		else
 			return null;
