@@ -51,7 +51,6 @@ public class GreedGame {
 									view.setVisible(false);
 								}
 							});
-							model.addObserver(view);
 
 							controller = new GreedGameController(model, view);
 

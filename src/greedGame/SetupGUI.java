@@ -34,7 +34,7 @@ public class SetupGUI {
 	 *            <code>true</code> to display the window, <code>false</code> to
 	 *            hide it
 	 * 
-	 * @see java.awt.Window#setVisible(boolean)
+	 * @see javax.swing.JFrame#setVisible(boolean)
 	 */
 	public void setVisible(boolean visible) {
 		frmGreedGame.setVisible(visible);
