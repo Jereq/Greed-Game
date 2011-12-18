@@ -114,11 +114,10 @@ public class GreedGameModel extends Observable {
 
 	// Asks for the players decision.
 	private void askPlayerForDecision() {
-
 		log.add("Waiting for " + currentPlayer.getName()
 				+ " to make a decision");
 		currentPlayer.beginDecide();
-	}
+	}                                                                      
 
 	// Adds current score to the players total score
 	private void addScore(int score) {
@@ -274,7 +273,7 @@ public class GreedGameModel extends Observable {
 	}
 
 	// Returns all players.
-	public List<Player> getPlayers() {
+	public List<Player> getPlayers() {										 // uml accepterar inte
 		return players;
 	}
 
