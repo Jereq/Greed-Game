@@ -50,8 +50,13 @@ public abstract class AIPlayer implements Player {
 
 			@Override
 			public void run() {
-				if (isPlayersTurn())
+				if (isPlayersTurn()) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+					}
 					gameModel.tryRollDice();
+				}
 			}
 		});
 	}
@@ -70,9 +75,23 @@ public abstract class AIPlayer implements Player {
 			@Override
 			public void run() {
 				if (isPlayersTurn()) {
-					decide();
-					// TODO: wait
-					act();
+					try {
+						Thread.sleep(100);
+						decide();
+						EventQueue.invokeLater(new Runnable() {
+
+							@Override
+							public void run() {
+								try {
+									Thread.sleep(100);
+									act();
+								} catch (InterruptedException e) {
+								}
+							}
+
+						});
+					} catch (InterruptedException e) {
+					}
 				}
 			}
 		});

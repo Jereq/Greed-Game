@@ -38,6 +38,7 @@ public class GreedGameModel extends Observable {
 	public GreedGameModel(int firstRollScoreLimit, int winScoreLimit) {
 
 		players = new LinkedList<Player>();
+		currentPlayerIterator = players.listIterator();
 
 		state = ModelState.ADD_PLAYER;
 
@@ -76,7 +77,7 @@ public class GreedGameModel extends Observable {
 					nextPlayer();
 				} else
 					askPlayerForDecision();
-					
+
 			} catch (InvalidScoringCombinationsException e) {
 			}
 		else
@@ -106,7 +107,7 @@ public class GreedGameModel extends Observable {
 
 		modelChanged();
 	}
-	
+
 	private void askPlayerForDecision() {
 
 		log.add("Waiting for " + currentPlayer.getName()
@@ -172,15 +173,21 @@ public class GreedGameModel extends Observable {
 	}
 
 	private void nextPlayer() {
-		if (state == ModelState.GAME_OVER)
-			throw new RuntimeException(
-					"nextPlayer() must not be called while in state "
-							+ state.toString());
+		if (state == ModelState.GAME_OVER || state == ModelState.ADD_PLAYER) {
+			log.add("Switching player not allowed while in state "
+					+ state.toString());
+			return;
+		}
 
-		if (currentPlayerIterator == null || !currentPlayerIterator.hasNext())
+		if (!currentPlayerIterator.hasNext())
 			currentPlayerIterator = players.listIterator();
 
 		currentPlayer = currentPlayerIterator.next();
+		askPlayerToBegin();
+	}
+
+	private void askPlayerToBegin() {
+
 		currentSubScore = 0;
 		diceHandler.reserveAllDice();
 
@@ -192,16 +199,15 @@ public class GreedGameModel extends Observable {
 	public void addPlayer(Player player) {
 
 		if (state == ModelState.ADD_PLAYER) {
-			if (currentPlayerIterator == null)
-				currentPlayerIterator = players.listIterator();
+
 			currentPlayerIterator.add(player);
+
 			log.add(player.getName() + " joined the game");
-			
+
 			modelChanged();
 		} else
-			throw new RuntimeException(
-					"addPlayer(Player) must not be called while in state "
-							+ state.toString());
+			log.add("addPlayer(Player) must not be called while in state "
+					+ state.toString());
 	}
 
 	public void removeCurrentPlayer() {
@@ -229,11 +235,11 @@ public class GreedGameModel extends Observable {
 	public List<Dice> getUnreservedDice() {
 		return diceHandler.getUnreservedDice();
 	}
-	
+
 	public List<Dice> getSelectedDice() {
 		return diceHandler.getSelectedDice();
 	}
-	
+
 	public List<Dice> getFreeDice() {
 		return diceHandler.getFreeDice();
 	}
@@ -255,29 +261,32 @@ public class GreedGameModel extends Observable {
 	}
 
 	public void startAddPlayer() {
-		if (state != ModelState.WAITING_FOR_FIRST_ROLL)
-			throw new RuntimeException(
-					"startAddPLayer() must not be called while in state "
-							+ state.toString()
-							+ ", only in WAITING_FOR_FIRST_ROLL");
+		if (state != ModelState.WAITING_FOR_FIRST_ROLL) {
+			log.add("ERROR: startAddPLayer() must not be called while in state "
+					+ state.toString() + ", only in WAITING_FOR_FIRST_ROLL");
+			return;
+		}
 
 		state = ModelState.ADD_PLAYER;
 		modelChanged();
 	}
 
 	public void stopAddPlayer() {
-		if (state != ModelState.ADD_PLAYER)
-			throw new RuntimeException(
-					"stopAddPlayer() must not be called while in state "
-							+ state.toString() + ", only in ADD_PLAYER");
+		if (state != ModelState.ADD_PLAYER) {
+			log.add("ERROR: stopAddPlayer() must not be called while in state "
+					+ state.toString() + ", only in ADD_PLAYER");
+			return;
+		}
+		
+		state = ModelState.WAITING_FOR_FIRST_ROLL;
 
 		if (players.size() == 0)
 			endGame();
 		else {
 			if (currentPlayer == null)
 				nextPlayer();
-
-			state = ModelState.WAITING_FOR_FIRST_ROLL;
+			else
+				askPlayerToBegin();
 		}
 
 		modelChanged();
@@ -299,14 +308,15 @@ public class GreedGameModel extends Observable {
 	public boolean isCurrentPlayerLocalGUI() {
 		return currentPlayer.isLocalGUIPlayer();
 	}
-	
+
 	public Player getWinningPlayer() {
-		if (state == ModelState.GAME_OVER && currentPlayer.getScore() >= winScoreLimit)
+		if (state == ModelState.GAME_OVER
+				&& currentPlayer.getScore() >= winScoreLimit)
 			return currentPlayer;
 		else
 			return null;
 	}
-	
+
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}

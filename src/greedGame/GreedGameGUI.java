@@ -172,11 +172,12 @@ public class GreedGameGUI implements Observer {
 		playerList = new JTextPane();
 		playerList.setText("mimimimi");
 		playerList.setEditable(false);
-		
+
 		Style style = playerList.getLogicalStyle();
-		StyleConstants.setTabSet(style, new TabSet(new TabStop[]{new TabStop(180)}));
+		StyleConstants.setTabSet(style, new TabSet(new TabStop[] { new TabStop(
+				180) }));
 		playerList.setLogicalStyle(style);
-		
+
 		playerListScrollPane.setViewportView(playerList);
 
 		JLabel lblHistory = new JLabel("History");
@@ -223,11 +224,12 @@ public class GreedGameGUI implements Observer {
 		playerAddList = new JTextPane();
 		playerAddList.setEditable(false);
 		playerAddList.setText("mimimimi");
-		
+
 		Style style = playerAddList.getLogicalStyle();
-		StyleConstants.setTabSet(style, new TabSet(new TabStop[]{new TabStop(180)}));
+		StyleConstants.setTabSet(style, new TabSet(new TabStop[] { new TabStop(
+				180) }));
 		playerAddList.setLogicalStyle(style);
-		
+
 		playerAddListScrollPane.setViewportView(playerAddList);
 
 		JLabel lblPlayers = new JLabel("Players");
@@ -268,7 +270,7 @@ public class GreedGameGUI implements Observer {
 	public void addReturnActionListener(ActionListener actionListener) {
 		btnReturn.addActionListener(actionListener);
 	}
-	
+
 	public void addWindowListener(WindowListener windowListener) {
 		frmGreedGame.addWindowListener(windowListener);
 	}
@@ -301,14 +303,16 @@ public class GreedGameGUI implements Observer {
 			playerAddList.setText(buildPlayerList());
 
 			break;
-			
+
 		case GAME_OVER:
-			
-			WindowEvent windowEvent = new WindowEvent(frmGreedGame, WindowEvent.WINDOW_CLOSING);
-			Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowEvent);
-			
+
+			WindowEvent windowEvent = new WindowEvent(frmGreedGame,
+					WindowEvent.WINDOW_CLOSING);
+			Toolkit.getDefaultToolkit().getSystemEventQueue()
+					.postEvent(windowEvent);
+
 			frmGreedGame.dispose();
-			
+
 			break;
 		}
 	}
