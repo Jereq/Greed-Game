@@ -8,6 +8,7 @@ import java.util.List;
 
 public class BasicScoringRules implements ScoringRules {
 
+	//returns the most available points possible with the current dice.
 	@Override
 	public int getMaxPoints(List<Dice> dice) {
 
@@ -21,6 +22,7 @@ public class BasicScoringRules implements ScoringRules {
 		return result;
 	}
 
+	//
 	@Override
 	public List<ScoringCombination> getScoringCombinations(List<Dice> dice) {
 		
@@ -69,6 +71,7 @@ public class BasicScoringRules implements ScoringRules {
 		return result;
 	}
 
+	//Checks if the current dice can be composed into a street.
 	private ScoringCombination getStreet(List<Dice> dice) {
 		if (dice.size() < 6)
 			return null;
@@ -93,6 +96,7 @@ public class BasicScoringRules implements ScoringRules {
 		return new ScoringCombination("Street", 1000, resDice);
 	}
 	
+	//Checks if there are three of a kind among the remaining dice.
 	private ScoringCombination getThreeOfAKind(List<Dice> dice) {
 		if (dice.size() < 3)
 			return null;
@@ -127,6 +131,7 @@ public class BasicScoringRules implements ScoringRules {
 		return new ScoringCombination("Three of a Kind", 100 * value, resDice);
 	}
 	
+	//Checks if there is a single one amongst the current dice
 	private ScoringCombination getSingleOne(List<Dice> dice) {
 		if (dice.isEmpty())
 			return null;
@@ -141,6 +146,7 @@ public class BasicScoringRules implements ScoringRules {
 		return new ScoringCombination("Single One", 100, resList);
 	}
 	
+	//Checks if there is a single 5 amongst the current dice
 	private ScoringCombination getSingleFive(List<Dice> dice) {
 		for (Dice d : dice) {
 			if (d.getValue() == 5) {

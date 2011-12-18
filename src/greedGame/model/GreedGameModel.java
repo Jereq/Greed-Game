@@ -38,7 +38,6 @@ public class GreedGameModel extends Observable {
 	public GreedGameModel(int firstRollScoreLimit, int winScoreLimit) {
 
 		players = new LinkedList<Player>();
-		currentPlayerIterator = players.listIterator();
 
 		state = ModelState.ADD_PLAYER;
 
@@ -51,8 +50,10 @@ public class GreedGameModel extends Observable {
 		log.add("Game started");
 	}
 
+	//Attempts to roll the dice.
 	public void tryRollDice() {
 
+		//Either tells the player he busted or waits for his decision.
 		if (state == ModelState.WAITING_FOR_FIRST_ROLL) {
 
 			rollDice();
@@ -66,6 +67,7 @@ public class GreedGameModel extends Observable {
 				askPlayerForDecision();
 			}
 
+			//Either tells the player he's busted or waits for his decision.
 		} else if (state == ModelState.WAITING_FOR_PLAYER_DECISION)
 			try {
 				updateSubScore();
@@ -77,7 +79,7 @@ public class GreedGameModel extends Observable {
 					nextPlayer();
 				} else
 					askPlayerForDecision();
-
+					
 			} catch (InvalidScoringCombinationsException e) {
 			}
 		else
@@ -85,8 +87,9 @@ public class GreedGameModel extends Observable {
 					+ state.toString());
 
 		modelChanged();
-	}
+	}//End of tryRollDice.
 
+	//Banks the current sub-score and ends current players turn.
 	public void bank() {
 
 		if (state == ModelState.WAITING_FOR_PLAYER_DECISION) {
@@ -107,7 +110,8 @@ public class GreedGameModel extends Observable {
 
 		modelChanged();
 	}
-
+	
+	//Asks for the players decision.
 	private void askPlayerForDecision() {
 
 		log.add("Waiting for " + currentPlayer.getName()
@@ -115,16 +119,19 @@ public class GreedGameModel extends Observable {
 		currentPlayer.beginDecide();
 	}
 
+	//Adds current score to the players total score
 	private void addScore(int score) {
 		currentPlayer.addScore(score);
 		log.add(currentPlayer.getName() + " banked " + score + " points");
 	}
 
+	//Ends the game
 	private void endGame() {
 		state = ModelState.GAME_OVER;
 		log.add("Game ended");
 	}
 
+	//Rolls the dice
 	private void rollDice() {
 
 		diceHandler.reserveSelectedDice();
@@ -132,6 +139,7 @@ public class GreedGameModel extends Observable {
 
 	}
 
+	//Updates the sub-score.
 	private void updateSubScore() throws InvalidScoringCombinationsException {
 
 		int newSubScore = getNewSubScore();
@@ -151,6 +159,7 @@ public class GreedGameModel extends Observable {
 		currentSubScore += newSubScore;
 	}
 
+	//
 	private int getNewSubScore() {
 
 		List<ScoringCombination> combinations = diceHandler
@@ -167,27 +176,23 @@ public class GreedGameModel extends Observable {
 		return result;
 	}
 
+	//
 	private void modelChanged() {
 		setChanged();
 		notifyObservers();
 	}
 
+	//Changes current player.
 	private void nextPlayer() {
-		if (state == ModelState.GAME_OVER || state == ModelState.ADD_PLAYER) {
-			log.add("Switching player not allowed while in state "
-					+ state.toString());
-			return;
-		}
+		if (state == ModelState.GAME_OVER)
+			throw new RuntimeException(
+					"nextPlayer() must not be called while in state "
+							+ state.toString());
 
-		if (!currentPlayerIterator.hasNext())
+		if (currentPlayerIterator == null || !currentPlayerIterator.hasNext())
 			currentPlayerIterator = players.listIterator();
 
 		currentPlayer = currentPlayerIterator.next();
-		askPlayerToBegin();
-	}
-
-	private void askPlayerToBegin() {
-
 		currentSubScore = 0;
 		diceHandler.reserveAllDice();
 
@@ -196,20 +201,23 @@ public class GreedGameModel extends Observable {
 		currentPlayer.beginTurn();
 	}
 
+	//Adds player
 	public void addPlayer(Player player) {
 
 		if (state == ModelState.ADD_PLAYER) {
-
+			if (currentPlayerIterator == null)
+				currentPlayerIterator = players.listIterator();
 			currentPlayerIterator.add(player);
-
 			log.add(player.getName() + " joined the game");
-
+			
 			modelChanged();
 		} else
-			log.add("addPlayer(Player) must not be called while in state "
-					+ state.toString());
+			throw new RuntimeException(
+					"addPlayer(Player) must not be called while in state "
+							+ state.toString());
 	}
 
+	//removes the player currently active
 	public void removeCurrentPlayer() {
 		currentPlayerIterator.remove();
 		log.add(currentPlayer.getName() + " left the game");
@@ -222,101 +230,114 @@ public class GreedGameModel extends Observable {
 		modelChanged();
 	}
 
+	//selects a dice for either banking or reserving.
 	public void selectDice(Dice dice) {
 		diceHandler.selectDice(dice);
 		modelChanged();
 	}
 
+	//Deselects selected dice.
 	public void unselectDice(Dice dice) {
 		diceHandler.unselectDice(dice);
 		modelChanged();
 	}
-
+	
+	//Returns the dice that are not in the RESERVED state.
 	public List<Dice> getUnreservedDice() {
 		return diceHandler.getUnreservedDice();
 	}
-
+	
+	//Returns the dice that are in the SELECTED state.
 	public List<Dice> getSelectedDice() {
 		return diceHandler.getSelectedDice();
 	}
-
+	
+	//Returns the dice that are in the FREE state.
 	public List<Dice> getFreeDice() {
 		return diceHandler.getFreeDice();
 	}
 
+	//Returns all dice.
 	public List<Dice> getDice() {
 		return diceHandler.getDice();
 	}
 
+//
 	public ModelState getState() {
 		return state;
 	}
 
+	//Returns all players.
 	public List<Player> getPlayers() {
 		return players;
 	}
 
+	//Returns the ScoringRules.
 	public ScoringRules getScoringRules() {
 		return diceHandler.getScoringRules();
 	}
 
+	//Opens the add player screen.
 	public void startAddPlayer() {
-		if (state != ModelState.WAITING_FOR_FIRST_ROLL) {
-			log.add("ERROR: startAddPLayer() must not be called while in state "
-					+ state.toString() + ", only in WAITING_FOR_FIRST_ROLL");
-			return;
-		}
+		if (state != ModelState.WAITING_FOR_FIRST_ROLL)
+			throw new RuntimeException(
+					"startAddPLayer() must not be called while in state "
+							+ state.toString()
+							+ ", only in WAITING_FOR_FIRST_ROLL");
 
 		state = ModelState.ADD_PLAYER;
 		modelChanged();
 	}
 
+	//Closes the add player screen.
 	public void stopAddPlayer() {
-		if (state != ModelState.ADD_PLAYER) {
-			log.add("ERROR: stopAddPlayer() must not be called while in state "
-					+ state.toString() + ", only in ADD_PLAYER");
-			return;
-		}
-		
-		state = ModelState.WAITING_FOR_FIRST_ROLL;
+		if (state != ModelState.ADD_PLAYER)
+			throw new RuntimeException(
+					"stopAddPlayer() must not be called while in state "
+							+ state.toString() + ", only in ADD_PLAYER");
 
 		if (players.size() == 0)
 			endGame();
 		else {
 			if (currentPlayer == null)
 				nextPlayer();
-			else
-				askPlayerToBegin();
+
+			state = ModelState.WAITING_FOR_FIRST_ROLL;
 		}
 
 		modelChanged();
 	}
 
+	//Returns the log
 	public List<String> getLog() {
 		return log;
 	}
 
+	//Returns the sub-score
 	public int getSubScore() {
 		return currentSubScore;
 	}
 
+//
 	public boolean canDecide() {
 		return (state == ModelState.WAITING_FOR_PLAYER_DECISION && currentSubScore
 				+ getNewSubScore() >= firstRollScoreLimit);
 	}
 
+//
 	public boolean isCurrentPlayerLocalGUI() {
 		return currentPlayer.isLocalGUIPlayer();
 	}
-
+	
+	//Returns the winning player or null.
 	public Player getWinningPlayer() {
-		if (state == ModelState.GAME_OVER
-				&& currentPlayer.getScore() >= winScoreLimit)
+		if (state == ModelState.GAME_OVER && currentPlayer.getScore() >= winScoreLimit)
 			return currentPlayer;
 		else
 			return null;
 	}
-
+	
+	//Returns the current player.
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}

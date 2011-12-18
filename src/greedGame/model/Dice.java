@@ -19,18 +19,18 @@ public class Dice implements Comparable<Dice> {
 		return value;
 	}
 	
-	//
+	//Rolls the dice changing the value and makes the state free.
 	public void roll() {
 		state = DiceState.FREE;
 		value = rnd.nextInt(6) + 1;
 	}
 	
-	//
+	//Returns the state of the dice
 	public DiceState getState() {
 		return state;
 	}
 	
-	//
+	//Changes the state of the dice to the input state
 	public void setState(DiceState state) {
 		this.state = state;
 	}
