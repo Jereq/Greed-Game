@@ -14,8 +14,9 @@ public interface ScoringRules {
 	 * set of dice.
 	 * 
 	 * @param dice
-	 *            a <code>List</code> of <code>Dice</code> to evaluate
-	 * @return the maximum amount of points that can be scored under these rules
+	 *            A <code>List</code> of <code>Dice</code> to evaluate. The list
+	 *            will not be altered.
+	 * @return The maximum amount of points that can be scored under these rules
 	 *         with the given dice
 	 */
 	int getMaxPoints(List<Dice> dice);
@@ -25,11 +26,13 @@ public interface ScoringRules {
 	 * score. The sum of all combinations' scores must be equal to the result of
 	 * <code>getMaxPoints</code>. Any dice not used in any combination is
 	 * returned in a scoring combination set to give 0 points appended to the
-	 * end of the list.
+	 * end of the list. Each dice must be returned in exactly
+	 * <strong>one</strong> combination.
 	 * 
 	 * @param dice
-	 *            a <code>List</code> of <code>Dice</code> to evaluate
-	 * @return a <code>List</code> of the best <code>ScoringCombination</code>s
+	 *            A <code>List</code> of <code>Dice</code> to evaluate. The list
+	 *            will not be altered.
+	 * @return A <code>List</code> of the best <code>ScoringCombination</code>s
 	 *         these rules can find
 	 */
 	List<ScoringCombination> getScoringCombinations(List<Dice> dice);
