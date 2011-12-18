@@ -40,7 +40,7 @@ public class Dice implements Comparable<Dice> {
 	}
 
 	/**
-	 * Rolls the dice changing the value and makes the state free.
+	 * Rolls the dice changing the value and makes the state <code>FREE</code>.
 	 */
 	public void roll() {
 		state = DiceState.FREE;

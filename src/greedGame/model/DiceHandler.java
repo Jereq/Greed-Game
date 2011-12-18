@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A helper class that handles a number of dice. It keeps track of the
+ * ScoringRules used and provides access to its functionality.
+ */
 public class DiceHandler {
 
 	private final int numberOfDice = 6;
@@ -11,11 +15,14 @@ public class DiceHandler {
 	private List<Dice> dice;
 	private ScoringRules rules;
 
-	//
+	/**
+	 * Constructor.
+	 */
 	public DiceHandler() {
 		dice = new ArrayList<Dice>(numberOfDice);
 		rules = new BasicScoringRules();
 
+		// A single random object is used for all dice in the handler
 		Random rnd = new Random();
 
 		for (int i = 0; i < numberOfDice; i++) {
@@ -23,11 +30,15 @@ public class DiceHandler {
 		}
 	}
 
-	//
+	/**
+	 * Rolls the dice. If all dice is reserved, all dice is rolled, otherwise
+	 * only the dice that is not reserved is rolled.
+	 */
 	public void rollDice() {
 
 		boolean isAllReserved = true;
 
+		// Check for any unreserved dice
 		for (Dice d : dice) {
 			if (d.getState() != DiceState.RESERVED) {
 				isAllReserved = false;
@@ -36,39 +47,67 @@ public class DiceHandler {
 		}
 
 		for (Dice d : dice) {
-			if (isAllReserved || d.getState() == DiceState.FREE)
+			if (isAllReserved || d.getState() != DiceState.FREE)
 				d.roll();
 		}
 	}
 
-	//Returns the maximum amount of points the current dice can give. 
+	/**
+	 * Gets the maximum amount of points that can be gotten from the currently
+	 * unreserved dice according to the scoring rules.
+	 * 
+	 * @return maximum number of points
+	 */
 	public int getMaxPoints() {
 		return rules.getMaxPoints(getUnreservedDice());
 	}
 
-	//Returns the scoring combinations of the current dice.
+	/**
+	 * Gets the best scoring combinations the currently selected dice can give,
+	 * according to the scoring rules
+	 * 
+	 * @return a <code>List</code> of <code>ScoringCombination</code>s found by
+	 *         the scoring rules
+	 */
 	public List<ScoringCombination> getScoringCombinations() {
 		return rules.getScoringCombinations(getSelectedDice());
 	}
 
-	//Sets the state of the selected dice to reserved.
+	/**
+	 * Changes the state of all currently selected dice to <code>RESERVED</code>
+	 */
 	public void reserveSelectedDice() {
 		for (Dice d : getSelectedDice()) {
 			d.setState(DiceState.RESERVED);
 		}
 	}
 
-	//
+	/**
+	 * Selects the passed in dice.
+	 * 
+	 * @param selDice
+	 *            the dice to select
+	 */
 	public void selectDice(Dice selDice) {
 		selDice.setState(DiceState.SELECTED);
 	}
 
-	//
+	/**
+	 * Unselects the passed in dice.
+	 * 
+	 * @param selDice
+	 *            the dice to free
+	 */
 	public void unselectDice(Dice selDice) {
 		selDice.setState(DiceState.FREE);
 	}
 
-	//Returns the selected dice
+	/**
+	 * Gets a list of all the currently selected dice. The returned dice must
+	 * not be altered directly.
+	 * 
+	 * @return a <code>List</code> of currently selected <code>Dice</code>
+	 */
 	public List<Dice> getSelectedDice() {
 
 		ArrayList<Dice> selectedDice = new ArrayList<Dice>(numberOfDice);
@@ -80,7 +119,13 @@ public class DiceHandler {
 		return selectedDice;
 	}
 
-	//Returns the dice that weren't selected before the new roll.
+	/**
+	 * Gets a list of all dice that are <code>FREE</code> or
+	 * <code>SELECTED</code>. The returned dice must not be altered directly.
+	 * 
+	 * @return a <code>List</code> of <code>Dice</code> that are not
+	 *         <code>RESERVED</code>
+	 */
 	public List<Dice> getUnreservedDice() {
 
 		ArrayList<Dice> unreservedDice = new ArrayList<Dice>(numberOfDice);
@@ -92,7 +137,12 @@ public class DiceHandler {
 		return unreservedDice;
 	}
 
-	//Returns the dice that are neither reserved nor selected.
+	/**
+	 * Gets a list of all free dice. The returned dice must not be altered
+	 * directly.
+	 * 
+	 * @return a <code>List</code> of currently <code>FREE</code> dice
+	 */
 	public List<Dice> getFreeDice() {
 
 		ArrayList<Dice> freeDice = new ArrayList<Dice>(numberOfDice);
@@ -104,17 +154,28 @@ public class DiceHandler {
 		return freeDice;
 	}
 
-	//
+	/**
+	 * Gets all dice, no matter what their state is. The returned list must not
+	 * be altered. The dice in the list must not be altered directly.
+	 * 
+	 * @return all dice handled by the dice handler
+	 */
 	public List<Dice> getDice() {
 		return dice;
 	}
 
-	//Returns the scoring rules.
+	/**
+	 * Gets the scoring rules used by the dice handler to evaluate dice.
+	 * 
+	 * @return the <code>ScoringRules</code> used
+	 */
 	public ScoringRules getScoringRules() {
 		return rules;
 	}
 
-	//Reserves all dice.
+	/**
+	 * Reserves all dice, no matter what their current state is.
+	 */
 	public void reserveAllDice() {
 		for (Dice d : dice)
 			d.setState(DiceState.RESERVED);
