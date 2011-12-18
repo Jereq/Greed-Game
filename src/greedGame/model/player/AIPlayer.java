@@ -9,8 +9,8 @@ import greedGame.model.ScoringCombination;
 import greedGame.model.ScoringRules;
 
 /**
- * AIPlayer is a abstract base class meant to make creating AI players easier.
- * It provides access to some relevant information from the model while
+ * AIPlayer is a abstract base class meant to make creating AI player classes
+ * easier. It provides access to some relevant information from the model while
  * preventing access to methods that would introduce errors.
  */
 public abstract class AIPlayer implements Player {
