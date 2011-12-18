@@ -281,4 +281,23 @@ public abstract class AIPlayer implements Player {
 	protected int getSelectedDiceScore() {
 		return getScoringRules().getMaxPoints(getSelectedDice());
 	}
+
+	/**
+	 * Gets the models score limit for winning.
+	 * 
+	 * @return Wining score limit
+	 */
+	protected int getWinScoreLimit() {
+		return gameModel.getWinScoreLimit();
+	}
+
+	/**
+	 * Gets the score the first roll must give to no go bust. The first roll
+	 * must always have enough dice selected to reach this limit.
+	 * 
+	 * @return The models first roll bust limit
+	 */
+	protected int getFirstRollBustLimit() {
+		return gameModel.getFirstRollBustLimit();
+	}
 }
