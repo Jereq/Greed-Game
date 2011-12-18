@@ -193,7 +193,7 @@ public abstract class AIPlayer implements Player {
 		if (decision == AIDecision.KEEP_ROLLING)
 			gameModel.tryRollDice();
 		else
-			gameModel.bank();
+			gameModel.tryBank();
 	}
 
 	/**
