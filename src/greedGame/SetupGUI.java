@@ -89,21 +89,32 @@ public class SetupGUI {
 
 	/**
 	 * Gets the number of points the user has entered as the limit for when the
-	 * game is over
+	 * game is over. If any exceptions is thrown while parsing, a default value
+	 * of 10000 is used.
 	 * 
-	 * @return The number of points entered. Not validated.
+	 * @return The number of points entered.
 	 */
 	public int getPointsToWin() {
-		return Integer.parseInt(pointsToWinText.getText());
+		try {
+			return Integer.parseInt(pointsToWinText.getText());
+		} catch (Exception e) {
+			return 10000;
+		}
+
 	}
 
 	/**
 	 * Gets the number of points the user has entered as the limit for when a
-	 * player is bust on the first roll
+	 * player is bust on the first roll. If any exceptions is thrown while
+	 * parsing, a default value of 300 is used.
 	 * 
-	 * @return The number of points entered. Not validated.
+	 * @return The number of points entered.
 	 */
 	public int getBustLimit() {
-		return Integer.parseInt(bustLimitText.getText());
+		try {
+			return Integer.parseInt(bustLimitText.getText());
+		} catch (Exception e) {
+			return 300;
+		}
 	}
 }
