@@ -106,7 +106,7 @@ public class GreedGameController {
 		view.addBankActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Forward the request to the model
-				model.bank();
+				model.tryBank();
 			}
 		});
 
