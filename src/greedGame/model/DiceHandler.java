@@ -47,7 +47,7 @@ public class DiceHandler {
 		}
 
 		for (Dice d : dice) {
-			if (isAllReserved || d.getState() != DiceState.FREE)
+			if (isAllReserved || d.getState() != DiceState.RESERVED)
 				d.roll();
 		}
 	}
